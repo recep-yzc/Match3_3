@@ -1,16 +1,25 @@
 using _Game.TileSystem.TileModel.Scripts;
 using UnityEngine;
+using Zenject;
 
 namespace _Game.TileSystem.GemModel.Scripts
 {
-    public class GemTileFactory : TileFactory
+    public class GemFactory : TileFactory
     {
         [Header("References")] [SerializeField]
         private Gem gemPrefab;
 
-        public override ITile CreateTile()
+        #region Private
+
+        [Inject] private DiContainer _diContainer;
+
+        #endregion
+
+        public override Tile CreateTile(Vector2 coordinate)
         {
-            var iGem = Instantiate(gemPrefab);
+            var iGem = _diContainer.InstantiatePrefabForComponent<Gem>(gemPrefab);
+            iGem.SetPosition(coordinate);
+            iGem.SetParent(transform);
             return iGem;
         }
     }

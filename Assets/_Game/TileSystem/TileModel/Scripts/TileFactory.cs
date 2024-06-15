@@ -4,7 +4,6 @@ namespace _Game.TileSystem.TileModel.Scripts
 {
     public abstract class TileFactory : MonoBehaviour
     {
-        public abstract ITile CreateTile();
-
+        public abstract Tile CreateTile(Vector2 coordinate);
     }
 }

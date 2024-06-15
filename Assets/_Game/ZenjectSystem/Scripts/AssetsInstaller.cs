@@ -1,4 +1,3 @@
-using _Game.TileSystem.TileModel.Scripts;
 using Zenject;
 
 namespace _Game.ZenjectSystem.Scripts
@@ -7,7 +6,6 @@ namespace _Game.ZenjectSystem.Scripts
     {
         public override void InstallBindings()
         {
-            Container.Bind<Tile>().FromResource("Tile").AsCached();
         }
     }
 }
