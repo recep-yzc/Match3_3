@@ -23,7 +23,6 @@ namespace _Game.TileSystem.AbilityModel.Shake.Scripts
 
                 var currentEulerAngles = transform.rotation.eulerAngles;
                 transform.rotation = Quaternion.Euler(currentEulerAngles.x, currentEulerAngles.y, rotationZ);
-
                 await UniTask.Yield(PlayerLoopTiming.Update);
             }
         }
