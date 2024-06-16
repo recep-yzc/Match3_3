@@ -26,6 +26,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         private void Start()
         {
+            Application.targetFrameRate = 60;
             FetchCancellationToken();
             FetchCameraData();
             FetchGridDataSo();
@@ -49,48 +50,33 @@ namespace _Game.BoardSystem.BoardModel.Scripts
             if (result.HasValue)
             {
                 var tileData = result.Value;
-                var tile = tileData.Tile;
 
-                await CheckBlast(inputPosition, tile);
+                await CheckBlast(inputPosition, tileData);
 
-                CheckShake(tile);
-                CheckScaleUpDown(tile, tileData);
+                CheckShake(tileData);
+                CheckScaleUpDown(tileData);
             }
         }
 
-        private void CheckScaleUpDown(Tile tile, TileData tileData)
+        private void CheckScaleUpDown(TileData tileData)
         {
-            if (!tile.TryGetComponent(out IScaleUpDown scaleUpDown)) return;
-            foreach (var neighbor in tileData.NeighborTiles)
-            {
-                if (neighbor?.Tile?.TryGetComponent(out IScaleUpDown neighborScaleUpDown) == true)
-                {
-                    neighborScaleUpDown.ScaleUpDownAsync(_scaleUpDownDataSo.duration, _scaleUpDownDataSo.force,
-                        _scaleUpDownDataSo.animationCurve).Forget();
-                }
-            }
-
-            scaleUpDown.ScaleUpDownAsync(_scaleUpDownDataSo.duration, _scaleUpDownDataSo.force,
-                _scaleUpDownDataSo.animationCurve).Forget();
+            if (!tileData.Tile.TryGetComponent(out IScaleUpDown scaleUpDown)) return;
+            scaleUpDown.ScaleUpDownAsync(_scaleUpDownDataSo).Forget();
         }
 
-        private void CheckShake(Tile tile)
+        private void CheckShake(TileData tileData)
         {
-            if (!tile.TryGetComponent(out IShake shake)) return;
-            shake.ShakeAsync(_shakeDataSo.duration, _shakeDataSo.force, _shakeDataSo.animationCurve).Forget();
+            if (!tileData.Tile.TryGetComponent(out IShake shake)) return;
+            shake.ShakeAsync(_shakeDataSo).Forget();
         }
 
-        private async UniTask CheckBlast(Vector3 inputPosition, Tile tile)
+        private async UniTask CheckBlast(Vector3 inputPosition, TileData tileData)
         {
-            if (!tile.TryGetComponent(out IBlast blast))
+            if (!tileData.Tile.TryGetComponent(out IBlast blast))
                 return;
 
             var sameTileList = await GetSimilarTileAsComponent<IBlast>(inputPosition);
-            foreach (var sameTile in sameTileList)
-            {
-                await UniTask.DelayFrame(1, PlayerLoopTiming.TimeUpdate, _destroyToken);
-                sameTile.Blast();
-            }
+            sameTileList.ForEach(x => x.Blast());
         }
 
         private async UniTask<List<T>> GetSimilarTileAsComponent<T>(Vector2 coordinate)
@@ -105,7 +91,6 @@ namespace _Game.BoardSystem.BoardModel.Scripts
             var result = GetTileAsComponent<T>(coordinate);
             if (result is null || sameTileList.Contains(result)) return;
 
-            await UniTask.DelayFrame(1, PlayerLoopTiming.TimeUpdate, _destroyToken);
             sameTileList.Add(result);
 
             foreach (var direction in DirectionHelper.GetAsArray())

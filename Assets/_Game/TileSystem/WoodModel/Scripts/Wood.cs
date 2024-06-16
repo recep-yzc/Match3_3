@@ -1,7 +1,6 @@
 using _Game.TileSystem.AbilityModel.ScaleUpDown.Scripts;
 using _Game.TileSystem.TileModel.Scripts;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace _Game.TileSystem.WoodModel.Scripts
 {
@@ -11,9 +10,10 @@ namespace _Game.TileSystem.WoodModel.Scripts
         {
         }
 
-        public UniTaskVoid ScaleUpDownAsync(float duration, Vector3 force, AnimationCurve animationCurve)
+        public UniTaskVoid ScaleUpDownAsync(ScaleUpDownDataSo scaleUpDownDataSo)
         {
-            return ScaleUpDownHelper.ScaleUpDown(transform, duration, force, animationCurve);
+            return ScaleUpDownHelper.ScaleUpDown(transform, scaleUpDownDataSo.duration, scaleUpDownDataSo.force,
+                scaleUpDownDataSo.animationCurve);
         }
     }
 }

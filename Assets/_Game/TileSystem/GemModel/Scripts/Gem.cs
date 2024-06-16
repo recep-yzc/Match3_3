@@ -19,9 +19,9 @@ namespace _Game.TileSystem.GemModel.Scripts
             spriteRenderer.sprite = sprite;
         }
 
-        public UniTaskVoid ShakeAsync(float duration, float force, AnimationCurve animationCurve)
+        public UniTaskVoid ShakeAsync(ShakeDataSo shakeDataSo)
         {
-            return ShakeHelper.Shake(transform, duration, force, animationCurve);
+            return ShakeHelper.Shake(transform, shakeDataSo.duration, shakeDataSo.force, shakeDataSo.animationCurve);
         }
 
         public void Blast()

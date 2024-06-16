@@ -5,6 +5,6 @@ namespace _Game.TileSystem.AbilityModel.ScaleUpDown.Scripts
 {
     public interface IScaleUpDown
     {
-        public UniTaskVoid ScaleUpDownAsync(float duration, Vector3 force, AnimationCurve animationCurve);
+        public UniTaskVoid ScaleUpDownAsync(ScaleUpDownDataSo scaleUpDownDataSo);
     }
 }
