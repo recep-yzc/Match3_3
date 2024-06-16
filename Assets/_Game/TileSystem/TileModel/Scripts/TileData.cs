@@ -6,7 +6,7 @@ namespace _Game.TileSystem.TileModel.Scripts
     [Serializable]
     public struct TileData
     {
-        public TileData(Vector2 coordinate, Tile tile, Vector2 bottomLeft, Vector2 topRight)
+        public TileData(Vector2 coordinate, GameObject tile, Vector2 bottomLeft, Vector2 topRight)
         {
             Coordinate = coordinate;
             Tile = tile;
@@ -17,14 +17,11 @@ namespace _Game.TileSystem.TileModel.Scripts
 
         public void SetNeighborTiles(TileData?[] neighborTiles)
         {
-            for (var i = 0; i < NeighborTiles.Length; i++)
-            {
-                NeighborTiles[i] = neighborTiles[i];
-            }
+            Array.Copy(neighborTiles, NeighborTiles, NeighborTiles.Length);
         }
 
         public Vector2 Coordinate { get; }
-        public Tile Tile { get; }
+        public GameObject Tile { get; }
         public Vector2 BottomLeft { get; }
         public Vector2 TopRight { get; }
         public TileData?[] NeighborTiles { get; private set; }

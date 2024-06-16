@@ -18,7 +18,7 @@ namespace _Game.TileSystem.AbilityModel.ScaleUpDown.Scripts
                 elapsedTime += Time.deltaTime;
                 var normalizedTime = elapsedTime / duration;
                 var curveValue = animationCurve.Evaluate(normalizedTime);
-                var scale = startScale + (curveValue * force);
+                var scale = startScale + curveValue * force;
 
                 transform.localScale = scale;
                 await UniTask.Yield(PlayerLoopTiming.Update);

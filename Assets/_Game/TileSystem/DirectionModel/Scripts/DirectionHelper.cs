@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace _Game.BoardSystem.BoardModel.Scripts
+namespace _Game.TileSystem.DirectionModel.Scripts
 {
     public static class DirectionHelper
     {
@@ -13,7 +13,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
                 Direction.Right => Vector2.right,
                 Direction.Up => Vector2.up,
                 Direction.Down => Vector2.down,
-                _ => Vector2.zero,
+                _ => Vector2.zero
             };
         }
 

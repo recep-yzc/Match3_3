@@ -1,9 +1,8 @@
-using _Game.TileSystem.TileModel.Scripts;
-
 namespace _Game.TileSystem.WoodModel.Scripts
 {
-    public interface IWood : ITile
+    public interface IWood
     {
-        public void SetShield(int shieldAmount);
+        public int Shield { get; set; }
+        public void SetShield(int shield);
     }
 }

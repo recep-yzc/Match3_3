@@ -15,12 +15,18 @@ namespace _Game.TileSystem.WoodModel.Scripts
 
         #endregion
 
-        public override Tile CreateTile(Vector2 coordinate)
+        public override GameObject CreateTile(Vector2 coordinate)
         {
-            var iGem = _diContainer.InstantiatePrefabForComponent<Wood>(woodPrefab);
-            iGem.SetPosition(coordinate);
-            iGem.SetParent(transform);
-            return iGem;
+            var wood = _diContainer.InstantiatePrefab(woodPrefab);
+            var iWood = wood.GetComponent<IWood>();
+            var iTile = wood.GetComponent<ITile>();
+
+            iTile.SetPosition(coordinate);
+            iTile.SetParent(transform);
+
+            iWood.SetShield(2);
+
+            return wood;
         }
     }
 }

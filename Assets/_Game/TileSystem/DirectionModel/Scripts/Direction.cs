@@ -1,4 +1,4 @@
-namespace _Game.BoardSystem.BoardModel.Scripts
+namespace _Game.TileSystem.DirectionModel.Scripts
 {
     public enum Direction
     {

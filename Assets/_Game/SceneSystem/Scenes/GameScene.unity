@@ -307,6 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1149474042}
   - component: {fileID: 1149474040}
+  - component: {fileID: 1149474043}
   m_Layer: 0
   m_Name: BoardController
   m_TagString: Untagged
@@ -345,6 +346,18 @@ Transform:
   - {fileID: 1229857233}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1149474043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149474039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93458631c5d84da0b8f383523cc9f61c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1229857232
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,6 +436,7 @@ MonoBehaviour:
   _scriptableObjectInstallers:
   - {fileID: 11400000, guid: 442c30501768ace459d9c53460fcae62, type: 2}
   - {fileID: 11400000, guid: 544a7adce1ab76a4b9094d6e5f5c9268, type: 2}
+  - {fileID: 11400000, guid: 88530222c939aa34a8d6594924ba032f, type: 2}
   _monoInstallers: []
   _installerPrefabs: []
   _autoRun: 1

@@ -1,6 +1,8 @@
+using _Game.EnumSystem.EnumModel.Scripts;
 using _Game.TileSystem.TileModel.Scripts;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
 namespace _Game.TileSystem.GemModel.Scripts
 {
@@ -9,18 +11,39 @@ namespace _Game.TileSystem.GemModel.Scripts
         [Header("References")] [SerializeField]
         private Gem gemPrefab;
 
-        #region Private
+        #region First
 
-        [Inject] private DiContainer _diContainer;
+        private void Start()
+        {
+            _gemIdLength = EnumHelper.GetEnumLength<GemId>();
+        }
 
         #endregion
 
-        public override Tile CreateTile(Vector2 coordinate)
+        public override GameObject CreateTile(Vector2 coordinate)
         {
-            var iGem = _diContainer.InstantiatePrefabForComponent<Gem>(gemPrefab);
-            iGem.SetPosition(coordinate);
-            iGem.SetParent(transform);
-            return iGem;
+            var gem = _diContainer.InstantiatePrefab(gemPrefab);
+            var iGem = gem.GetComponent<IGem>();
+            var iTile = gem.GetComponent<ITile>();
+
+            iTile.SetPosition(coordinate);
+            iTile.SetParent(transform);
+
+            var gemId = (GemId)Random.Range(0, _gemIdLength);
+            var sprite = _gemDataSo.GetSpriteByGemId(gemId);
+
+            iGem.SetGemId(gemId);
+            iGem.SetSprite(sprite);
+
+            return gem;
         }
+
+        #region Private
+
+        [Inject] private DiContainer _diContainer;
+        [Inject] private GemDataSo _gemDataSo;
+        private int _gemIdLength;
+
+        #endregion
     }
 }
