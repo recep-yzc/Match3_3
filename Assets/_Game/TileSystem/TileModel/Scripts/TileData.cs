@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace _Game.TileSystem.TileModel.Scripts
@@ -12,11 +15,21 @@ namespace _Game.TileSystem.TileModel.Scripts
             Tile = tile;
             BottomLeft = bottomLeft;
             TopRight = topRight;
+            NeighborTiles = new TileData?[4];
         }
 
-        public Vector2 Coordinate { get; private set; }
-        public Tile Tile { get; private set; }
-        public Vector2 BottomLeft { get; private set; }
-        public Vector2 TopRight { get; private set; }
+        public void SetNeighborTiles(TileData?[] neighborTiles)
+        {
+            for (var i = 0; i < NeighborTiles.Length; i++)
+            {
+                NeighborTiles[i] = neighborTiles[i];
+            }
+        }
+
+        public Vector2 Coordinate { get; }
+        public Tile Tile { get; }
+        public Vector2 BottomLeft { get; }
+        public Vector2 TopRight { get; }
+        public TileData?[] NeighborTiles { get; private set; }
     }
 }

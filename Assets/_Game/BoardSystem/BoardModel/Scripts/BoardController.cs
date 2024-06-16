@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using _Game.GridSystem.GridModel.Scripts;
 using _Game.TileSystem.AbilityModel.Blast.Scripts;
 using _Game.TileSystem.AbilityModel.ScaleUpDown.Scripts;
@@ -9,11 +10,8 @@ using _Game.TileSystem.GemModel.Scripts;
 using _Game.TileSystem.TileModel.Scripts;
 using _Game.TileSystem.WoodModel.Scripts;
 using Cysharp.Threading.Tasks;
-using JetBrains.Annotations;
-using UnityEditor.VersionControl;
 using UnityEngine;
 using Zenject;
-using Task = System.Threading.Tasks.Task;
 
 namespace _Game.BoardSystem.BoardModel.Scripts
 {
@@ -47,71 +45,93 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         private async UniTask HandleTileClick(Vector3 inputPosition)
         {
-            foreach (var tileData in _tileDataList)
+            var result = GetTileDataByCoordinate(inputPosition);
+            if (result.HasValue)
             {
-                var isDotIn = GridHelper.CheckOverlapWithDot(tileData.BottomLeft, tileData.TopRight, inputPosition);
-                if (!isDotIn) continue;
+                var tileData = result.Value;
+                var tile = tileData.Tile;
 
-                if (tileData.Tile.TryGetComponent(out IBlast blast))
-                {
-                    var sameTileList = await GetSameTile<IBlast>(inputPosition);
-                    foreach (var sameTile in sameTileList)
-                    {
-                        await UniTask.DelayFrame(1, PlayerLoopTiming.TimeUpdate, _destroyToken);
-                        sameTile.Blast();
-                    }
+                await CheckBlast(inputPosition, tile);
 
-                    break;
-                }
-
-                if (tileData.Tile.TryGetComponent(out IShake shake))
-                    shake.ShakeAsync(_shakeDataSo.duration, _shakeDataSo.force, _shakeDataSo.animationCurve).Forget();
-                if (tileData.Tile.TryGetComponent(out IScaleUpDown scaleUpDown))
-                    scaleUpDown.ScaleUpDownAsync(_scaleUpDownDataSo.duration, _scaleUpDownDataSo.force,
-                        _scaleUpDownDataSo.animationCurve).Forget();
-
-                break;
+                CheckShake(tile);
+                CheckScaleUpDown(tile, tileData);
             }
         }
 
-        private async UniTask<List<T>> GetSameTile<T>(Vector2 coordinate)
+        private void CheckScaleUpDown(Tile tile, TileData tileData)
+        {
+            if (!tile.TryGetComponent(out IScaleUpDown scaleUpDown)) return;
+            foreach (var neighbor in tileData.NeighborTiles)
+            {
+                if (neighbor?.Tile?.TryGetComponent(out IScaleUpDown neighborScaleUpDown) == true)
+                {
+                    neighborScaleUpDown.ScaleUpDownAsync(_scaleUpDownDataSo.duration, _scaleUpDownDataSo.force,
+                        _scaleUpDownDataSo.animationCurve).Forget();
+                }
+            }
+
+            scaleUpDown.ScaleUpDownAsync(_scaleUpDownDataSo.duration, _scaleUpDownDataSo.force,
+                _scaleUpDownDataSo.animationCurve).Forget();
+        }
+
+        private void CheckShake(Tile tile)
+        {
+            if (!tile.TryGetComponent(out IShake shake)) return;
+            shake.ShakeAsync(_shakeDataSo.duration, _shakeDataSo.force, _shakeDataSo.animationCurve).Forget();
+        }
+
+        private async UniTask CheckBlast(Vector3 inputPosition, Tile tile)
+        {
+            if (!tile.TryGetComponent(out IBlast blast))
+                return;
+
+            var sameTileList = await GetSimilarTileAsComponent<IBlast>(inputPosition);
+            foreach (var sameTile in sameTileList)
+            {
+                await UniTask.DelayFrame(1, PlayerLoopTiming.TimeUpdate, _destroyToken);
+                sameTile.Blast();
+            }
+        }
+
+        private async UniTask<List<T>> GetSimilarTileAsComponent<T>(Vector2 coordinate)
         {
             var sameTileList = new List<T>();
-            await FindSameTile(sameTileList, coordinate);
+            await FindSimilarTileAsComponent(sameTileList, coordinate);
             return sameTileList;
         }
 
-        private async UniTask FindSameTile<T>(List<T> sameTileList, Vector2 coordinate)
+        private async UniTask FindSimilarTileAsComponent<T>(List<T> sameTileList, Vector2 coordinate)
         {
             var result = GetTileAsComponent<T>(coordinate);
-            if (result is not { } tile || sameTileList.Contains(tile)) return;
+            if (result is null || sameTileList.Contains(result)) return;
 
             await UniTask.DelayFrame(1, PlayerLoopTiming.TimeUpdate, _destroyToken);
-            sameTileList.Add(tile);
-            
+            sameTileList.Add(result);
+
             foreach (var direction in DirectionHelper.GetAsArray())
             {
                 var newCoordinate = coordinate + direction.ToVector();
-                await FindSameTile(sameTileList, newCoordinate);
+                await FindSimilarTileAsComponent(sameTileList, newCoordinate);
             }
         }
 
         private T GetTileAsComponent<T>(Vector2 coordinate)
         {
-            foreach (var tileData in _tileDataList)
-            {
-                var isDotIn = GridHelper.CheckOverlapWithDot(tileData.BottomLeft, tileData.TopRight, coordinate);
-                if (isDotIn)
-                {
-                    return tileData.Tile.GetComponent<T>();
-                }
-            }
+            var tileData = GetTileDataByCoordinate(coordinate);
+            if (tileData?.Tile is null) return default;
+            return tileData.Value.Tile.TryGetComponent(out T t) ? t : default;
+        }
 
-            return default;
+        private TileData? GetTileDataByCoordinate(Vector2 coordinate)
+        {
+            return _tileDataList.FirstOrDefault(tileData =>
+                GridHelper.CheckOverlapWithDot(tileData.BottomLeft, tileData.TopRight, coordinate));
         }
 
         private void CreateTile()
         {
+            var tempList = new List<TileData>();
+
             for (var i = 0; i < _gridList.Count; i++)
             {
                 var coordinate = _gridList[i];
@@ -121,8 +141,33 @@ namespace _Game.BoardSystem.BoardModel.Scripts
                 var bottomLeft = coordinate - _halfGridSize;
                 var topRight = coordinate + _halfGridSize;
 
-                _tileDataList.Add(new TileData(coordinate, iTile, bottomLeft, topRight));
+                tempList.Add(new TileData(coordinate, iTile, bottomLeft, topRight));
             }
+
+            _tileDataList.AddRange(tempList);
+
+            Parallel.ForEach(tempList, tileData =>
+            {
+                var neighborTileList = GetNeighborTileList(tileData.Coordinate);
+                tileData.SetNeighborTiles(neighborTileList);
+            });
+        }
+
+        private TileData?[] GetNeighborTileList(Vector2 coordinate)
+        {
+            var array = DirectionHelper.GetAsArray();
+            var tileDataList = new TileData?[array.Length];
+
+            for (var i = 0; i < array.Length; i++)
+            {
+                var direction = array[i];
+                var newCoordinate = coordinate + direction.ToVector();
+
+                var result = GetTileDataByCoordinate(newCoordinate);
+                tileDataList[i] = result;
+            }
+
+            return tileDataList;
         }
 
         private void FetchCameraData()
