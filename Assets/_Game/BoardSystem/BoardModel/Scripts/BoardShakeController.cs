@@ -7,16 +7,16 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 {
     public class BoardShakeController : MonoBehaviour
     {
-        public void TryShake(TileData tileData)
-        {
-            if (!tileData.Tile.TryGetComponent(out IShake shake)) return;
-            shake.ShakeAsync(_shakeDataSo).Forget();
-        }
-
         #region Private
 
         [Inject] private ShakeDataSo _shakeDataSo;
 
         #endregion
+
+        public void TryShake(TileData tileData)
+        {
+            if (!tileData.Tile.TryGetComponent(out IShake shake)) return;
+            shake.ShakeAsync(_shakeDataSo).Forget();
+        }
     }
 }

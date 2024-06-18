@@ -12,18 +12,22 @@ namespace _Game.TileSystem.TileModel.Scripts
             Tile = tile;
             BottomLeft = bottomLeft;
             TopRight = topRight;
-            NeighborTiles = new TileData[4];
+            NeighborTileData = new TileData[4];
         }
 
-        public void SetNeighborTiles(TileData[] neighborTiles)
+        public void SetNeighborTileData(TileData[] neighborTileData)
         {
-            Array.Copy(neighborTiles, NeighborTiles, NeighborTiles.Length);
+            Array.Copy(neighborTileData, NeighborTileData, NeighborTileData.Length);
         }
+
+        #region Public
 
         public Vector2 Coordinate { get; }
         public GameObject Tile { get; }
         public Vector2 BottomLeft { get; }
         public Vector2 TopRight { get; }
-        public TileData[] NeighborTiles { get; private set; }
+        public TileData[] NeighborTileData { get; private set; }
+
+        #endregion
     }
 }

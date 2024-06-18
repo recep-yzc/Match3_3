@@ -6,13 +6,17 @@ namespace _Game.TileSystem.WoodModel.Scripts
 {
     public class Wood : Tile, IWood, IScaleUpDown
     {
+        #region Public
+
+        public int Shield { get; set; }
+
+        #endregion
+
         public UniTaskVoid ScaleUpDownAsync(ScaleUpDownDataSo scaleUpDownDataSo)
         {
             return ScaleUpDownHelper.ScaleUpDown(transform, scaleUpDownDataSo.duration, scaleUpDownDataSo.force,
                 scaleUpDownDataSo.animationCurve);
         }
-
-        public int Shield { get; set; }
 
         public void SetShield(int shield)
         {

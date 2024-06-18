@@ -12,11 +12,6 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 {
     public class BoardController : MonoBehaviour
     {
-        [Header("References")] [SerializeField]
-        private GemFactory gemFactory;
-
-        [SerializeField] private WoodFactory woodFactory;
-
         #region First
 
         private void Start()
@@ -37,8 +32,8 @@ namespace _Game.BoardSystem.BoardModel.Scripts
             {
                 var coordinate = gridList[i];
                 var tile = i <= (int)(gridList.Count * 0.5f)
-                    ? woodFactory.CreateTile(coordinate)
-                    : gemFactory.CreateTile(coordinate);
+                    ? _woodFactory.CreateTile(coordinate)
+                    : _gemFactory.CreateTile(coordinate);
                 var bottomLeft = coordinate - _halfGridSize;
                 var topRight = coordinate + _halfGridSize;
 
@@ -51,7 +46,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
             Parallel.ForEach(tempList, tileData =>
             {
                 var neighborTileList = GetNeighborTiles(tileData.Coordinate);
-                tileData.SetNeighborTiles(neighborTileList);
+                tileData.SetNeighborTileData(neighborTileList);
             });
         }
 
@@ -82,6 +77,13 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         [Inject] private GridLevelDataSo _gridLevelDataSo;
         private GridDataSo _gridDataSo;
+
+        #endregion
+
+        #region Ability
+
+        [Inject] private GemFactory _gemFactory;
+        [Inject] private WoodFactory _woodFactory;
 
         #endregion
 

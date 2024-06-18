@@ -18,6 +18,11 @@ namespace _Game.TileSystem.TileModel.Scripts
             transform.SetParent(parent);
         }
 
+        public void SetTileId(TileId tileId)
+        {
+            TileId = tileId;
+        }
+
         public void SetPosition(Vector2 coordinate)
         {
             transform.position = coordinate;

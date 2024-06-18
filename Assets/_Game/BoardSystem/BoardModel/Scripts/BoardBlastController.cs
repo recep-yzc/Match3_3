@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Game.TileSystem.AbilityModel.Blast.Scripts;
@@ -11,60 +10,55 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 {
     public class BoardBlastController : MonoBehaviour
     {
+        #region Private
+
+        private static int MinBlastAmount => 2;
+
+        #endregion
+
         public async Task TryBlast(TileData tileData)
         {
-            await CheckBlast(tileData);
-        }
-
-        private async UniTask CheckBlast(TileData tileData)
-        {
-            var tileId = tileData.Tile.GetComponent<ITile>().TileId;
+            var tileId = TileHelper.GetTileAsComponent<ITile>(tileData.Tile).TileId;
 
             switch (tileId)
             {
                 case TileId.Gem:
-                {
-                    var gemId = tileData.Tile.GetComponent<IGem>().GemId;
-                    var similarTiles = await GetSimilarGemTile(tileData, gemId);
-                    if (similarTiles.Count < 2) return;
-                    similarTiles.ForEach(x => ((IBlast)x).Blast());
-
+                    await HandleForGem(tileData);
                     break;
-                }
                 case TileId.Wood:
-                {
                     break;
-                }
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        private async UniTask<List<IGem>> GetSimilarGemTile(TileData tileData, GemId gemId)
+        private async Task HandleForGem(TileData tileData)
         {
+            var similarGemTiles = await GetSimilarGemTiles(tileData);
+            if (similarGemTiles.Count < MinBlastAmount) return;
+            similarGemTiles.ForEach(x => ((IBlast)x).Blast());
+        }
+
+        private async UniTask<List<IGem>> GetSimilarGemTiles(TileData tileData)
+        {
+            var gemTile = TileHelper.GetTileAsComponent<IGem>(tileData.Tile);
+
             var similarTiles = new List<IGem>();
-            await FindSimilarTileAsComponent(similarTiles, tileData, gemId);
+            await FindSimilarGemTiles(similarTiles, tileData, gemTile);
             return similarTiles;
         }
 
-        private async UniTask FindSimilarTileAsComponent<T>(List<T> similarTiles, TileData tileData, GemId gemId)
+        private async UniTask FindSimilarGemTiles(ICollection<IGem> similarTiles, TileData tileData, IGem gemTile)
         {
-            var tileAsComponent = GetTileAsComponent<T>(tileData.Tile);
-            if (tileAsComponent is null || similarTiles.Contains(tileAsComponent)) return;
+            if (gemTile is null || similarTiles.Contains(gemTile)) return;
 
-            similarTiles.Add(tileAsComponent);
+            similarTiles.Add(gemTile);
 
-            foreach (var neighborTileData in tileData.NeighborTiles)
+            foreach (var nTileData in tileData.NeighborTileData)
             {
-                if (neighborTileData is not { Tile: not null }) continue;
-                if (neighborTileData.Tile.GetComponent<IGem>()?.GemId == gemId)
-                    await FindSimilarTileAsComponent(similarTiles, neighborTileData, gemId);
+                if (nTileData.Tile is null) continue;
+                var nGemTile = TileHelper.GetTileAsComponent<IGem>(nTileData.Tile);
+                if (nGemTile?.GemId == gemTile.GemId)
+                    await FindSimilarGemTiles(similarTiles, nTileData, nGemTile);
             }
-        }
-
-        private T GetTileAsComponent<T>(GameObject tile)
-        {
-            return tile.TryGetComponent(out T t) ? t : default;
         }
     }
 }

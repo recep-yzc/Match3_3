@@ -1,4 +1,6 @@
 using _Game.BoardSystem.BoardModel.Scripts;
+using _Game.TileSystem.GemModel.Scripts;
+using _Game.TileSystem.WoodModel.Scripts;
 using Zenject;
 
 namespace _Game.ZenjectSystem.Scripts
@@ -7,6 +9,9 @@ namespace _Game.ZenjectSystem.Scripts
     {
         public override void InstallBindings()
         {
+            Container.BindInstance(FindObjectOfType<GemFactory>());
+            Container.BindInstance(FindObjectOfType<WoodFactory>());
+
             Container.BindInstance(FindObjectOfType<BoardController>());
             Container.BindInstance(FindObjectOfType<BoardInputController>());
 
