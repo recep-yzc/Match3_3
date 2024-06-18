@@ -23,6 +23,7 @@ namespace _Game.TileSystem.WoodModel.Scripts
 
             iTile.SetPosition(coordinate);
             iTile.SetParent(transform);
+            iTile.SetTileId(TileId.Wood);
 
             iWood.SetShield(2);
 

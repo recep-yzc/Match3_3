@@ -7,6 +7,12 @@ namespace _Game.TileSystem.TileModel.Scripts
         [Header("References")] [SerializeField]
         private SpriteRenderer spriteRenderer;
 
+        #region Public
+
+        public TileId TileId { get; set; }
+
+        #endregion
+
         public void SetParent(Transform parent)
         {
             transform.SetParent(parent);

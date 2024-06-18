@@ -65,8 +65,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
                 var direction = array[i];
                 var newCoordinate = coordinate + direction.ToVector();
 
-                var result = BoardHelper.GetTileDataByCoordinate(BoardConstants.TileData, newCoordinate);
-                tileData[i] = result;
+                tileData[i] = BoardHelper.GetTileDataByCoordinate(BoardConstants.TileData, newCoordinate);
             }
 
             return tileData;

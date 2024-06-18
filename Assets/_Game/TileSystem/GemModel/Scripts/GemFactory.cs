@@ -24,22 +24,20 @@ namespace _Game.TileSystem.GemModel.Scripts
         public override GameObject CreateTile(Vector2 coordinate)
         {
             var gem = _diContainer.InstantiatePrefab(gemPrefab);
-            
-            var iGem = gem.GetComponent<IGem>();
+
             var iTile = gem.GetComponent<ITile>();
-            var iBlast = gem.GetComponent<IBlast>();
+            var iGem = gem.GetComponent<IGem>();
 
             iTile.SetPosition(coordinate);
             iTile.SetParent(transform);
+            iTile.TileId = TileId.Gem;
 
             var gemId = (GemId)Random.Range(0, _gemIdLength);
             var sprite = _gemDataSo.GetSpriteByGemId(gemId);
 
             iGem.SetGemId(gemId);
             iGem.SetSprite(sprite);
-
-            iBlast.SetBlastId(BlastId.Gem);
-
+            
             return gem;
         }
 
