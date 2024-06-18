@@ -31,13 +31,13 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         private async UniTask HandleTileClick(Vector3 inputPosition)
         {
-            var result = BoardHelper.GetTileDataByCoordinate(BoardConstants.TileData, inputPosition);
-            if (result?.Tile is null) return;
+            var tileData = BoardHelper.GetTileDataByCoordinate(BoardConstants.TileData, inputPosition);
+            if (tileData.Tile is null) return;
 
-            await CheckBlast(inputPosition, result.Value);
+            await CheckBlast(tileData);
 
-            CheckShake(result.Value);
-            CheckScaleUpDown(result.Value);
+            CheckShake(tileData);
+            CheckScaleUpDown(tileData);
         }
 
         private void CheckScaleUpDown(TileData tileData)
@@ -52,39 +52,38 @@ namespace _Game.BoardSystem.BoardModel.Scripts
             shake.ShakeAsync(_shakeDataSo).Forget();
         }
 
-        private async UniTask CheckBlast(Vector3 inputPosition, TileData tileData)
+        private async UniTask CheckBlast(TileData tileData)
         {
-            if (!tileData.Tile.TryGetComponent(out IBlast blast)) return;
-            var sameTileList = await GetSimilarTileAsComponent<IBlast>(inputPosition);
+            // blast.BlastId
+
+            var sameTileList = await GetSimilarTileAsComponent<IBlast>(tileData);
             sameTileList.ForEach(x => x.Blast());
         }
 
-        private async UniTask<List<T>> GetSimilarTileAsComponent<T>(Vector2 coordinate)
+        private async UniTask<List<T>> GetSimilarTileAsComponent<T>(TileData tileData)
         {
-            var sameTileList = new List<T>();
-            await FindSimilarTileAsComponent(sameTileList, coordinate);
-            return sameTileList;
+            var similarTiles = new List<T>();
+            await FindSimilarTileAsComponent(similarTiles, tileData);
+            return similarTiles;
         }
 
-        private async UniTask FindSimilarTileAsComponent<T>(List<T> sameTileList, Vector2 coordinate)
+        private async UniTask FindSimilarTileAsComponent<T>(List<T> similarTiles, TileData tileData)
         {
-            var result = GetTileAsComponent<T>(coordinate);
-            if (result is null || sameTileList.Contains(result)) return;
+            var tileAsComponent = GetTileAsComponent<T>(tileData.Tile);
+            if (tileAsComponent is null || similarTiles.Contains(tileAsComponent)) return;
 
-            sameTileList.Add(result);
+            similarTiles.Add(tileAsComponent);
 
-            foreach (var direction in DirectionHelper.GetAsArray())
+            foreach (var neighborTileData in tileData.NeighborTiles)
             {
-                var newCoordinate = coordinate + direction.ToVector();
-                await FindSimilarTileAsComponent(sameTileList, newCoordinate);
+                if (neighborTileData is { Tile: not null }) 
+                    await FindSimilarTileAsComponent(similarTiles, neighborTileData);
             }
         }
 
-        private T GetTileAsComponent<T>(Vector2 coordinate)
+        private T GetTileAsComponent<T>(GameObject tile)
         {
-            var result = BoardHelper.GetTileDataByCoordinate(BoardConstants.TileData, coordinate);
-            if (result?.Tile is null) return default;
-            return result.Value.Tile.TryGetComponent(out T t) ? t : default;
+            return tile.TryGetComponent(out T t) ? t : default;
         }
 
         private void FetchCameraData()

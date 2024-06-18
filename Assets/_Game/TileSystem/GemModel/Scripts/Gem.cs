@@ -16,12 +16,18 @@ namespace _Game.TileSystem.GemModel.Scripts
         #region Public
 
         public GemId GemId { get; set; }
+        public BlastId BlastId { get; set; }
 
         #endregion
 
         public void SetGemId(GemId gemId)
         {
             GemId = gemId;
+        }
+
+        public void SetBlastId(BlastId blastId)
+        {
+            BlastId = blastId;
         }
 
         public UniTaskVoid ShakeAsync(ShakeDataSo shakeDataSo)

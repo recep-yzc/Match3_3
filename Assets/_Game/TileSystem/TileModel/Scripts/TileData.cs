@@ -12,10 +12,10 @@ namespace _Game.TileSystem.TileModel.Scripts
             Tile = tile;
             BottomLeft = bottomLeft;
             TopRight = topRight;
-            NeighborTiles = new TileData?[4];
+            NeighborTiles = new TileData[4];
         }
 
-        public void SetNeighborTiles(TileData?[] neighborTiles)
+        public void SetNeighborTiles(TileData[] neighborTiles)
         {
             Array.Copy(neighborTiles, NeighborTiles, NeighborTiles.Length);
         }
@@ -24,6 +24,6 @@ namespace _Game.TileSystem.TileModel.Scripts
         public GameObject Tile { get; }
         public Vector2 BottomLeft { get; }
         public Vector2 TopRight { get; }
-        public TileData?[] NeighborTiles { get; private set; }
+        public TileData[] NeighborTiles { get; private set; }
     }
 }

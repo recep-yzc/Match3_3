@@ -45,20 +45,20 @@ namespace _Game.BoardSystem.BoardModel.Scripts
                 tempList.Add(new TileData(coordinate, tile, bottomLeft, topRight));
             }
 
+            BoardConstants.TileData.Clear();
+            BoardConstants.TileData.AddRange(tempList);
+
             Parallel.ForEach(tempList, tileData =>
             {
                 var neighborTileList = GetNeighborTiles(tileData.Coordinate);
                 tileData.SetNeighborTiles(neighborTileList);
             });
-
-            BoardConstants.TileData.Clear();
-            BoardConstants.TileData.AddRange(tempList);
         }
 
-        private TileData?[] GetNeighborTiles(Vector2 coordinate)
+        private TileData[] GetNeighborTiles(Vector2 coordinate)
         {
             var array = DirectionHelper.GetAsArray();
-            var tileData = new TileData?[array.Length];
+            var tileData = new TileData[array.Length];
 
             for (var i = 0; i < array.Length; i++)
             {

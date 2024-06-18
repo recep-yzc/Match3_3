@@ -1,4 +1,5 @@
 using _Game.EnumSystem.EnumModel.Scripts;
+using _Game.TileSystem.AbilityModel.Blast.Scripts;
 using _Game.TileSystem.TileModel.Scripts;
 using UnityEngine;
 using Zenject;
@@ -23,8 +24,10 @@ namespace _Game.TileSystem.GemModel.Scripts
         public override GameObject CreateTile(Vector2 coordinate)
         {
             var gem = _diContainer.InstantiatePrefab(gemPrefab);
+            
             var iGem = gem.GetComponent<IGem>();
             var iTile = gem.GetComponent<ITile>();
+            var iBlast = gem.GetComponent<IBlast>();
 
             iTile.SetPosition(coordinate);
             iTile.SetParent(transform);
@@ -34,6 +37,8 @@ namespace _Game.TileSystem.GemModel.Scripts
 
             iGem.SetGemId(gemId);
             iGem.SetSprite(sprite);
+
+            iBlast.SetBlastId(BlastId.Gem);
 
             return gem;
         }
