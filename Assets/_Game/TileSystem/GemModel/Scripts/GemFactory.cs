@@ -37,7 +37,7 @@ namespace _Game.TileSystem.GemModel.Scripts
 
             iGem.SetGemId(gemId);
             iGem.SetSprite(sprite);
-            
+
             return gem;
         }
 

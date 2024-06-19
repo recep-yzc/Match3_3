@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 1149474046}
   - component: {fileID: 1149474045}
   - component: {fileID: 1149474044}
+  - component: {fileID: 1149474047}
   m_Layer: 0
   m_Name: BoardController
   m_TagString: Untagged
@@ -330,8 +331,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 335ff7ba1da8eee469f895ee529eda3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemFactory: {fileID: 1106473524}
-  woodFactory: {fileID: 1229857234}
 --- !u!4 &1149474042
 Transform:
   m_ObjectHideFlags: 0
@@ -395,6 +394,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38be69a4c4d94f719154f4e7a3bcbece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1149474047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149474039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 864615e718ef4df480d3bfb62c6448aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1229857232

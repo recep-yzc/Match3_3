@@ -14,7 +14,7 @@ namespace _Game.TileSystem.WoodModel.Scripts
 
         public UniTaskVoid ScaleUpDownAsync(ScaleUpDownDataSo scaleUpDownDataSo)
         {
-            return ScaleUpDownHelper.ScaleUpDown(transform, scaleUpDownDataSo.duration, scaleUpDownDataSo.force,
+            return ScaleUpDownHelper.Handle(transform, scaleUpDownDataSo.duration, scaleUpDownDataSo.force,
                 scaleUpDownDataSo.animationCurve);
         }
 

@@ -15,8 +15,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         public void TryShake(TileData tileData)
         {
-            if (!tileData.Tile.TryGetComponent(out IShake shake)) return;
-            shake.ShakeAsync(_shakeDataSo).Forget();
+            tileData.Shake?.ShakeAsync(_shakeDataSo).Forget();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace _Game.TileSystem.AbilityModel.Shake.Scripts
 {
     public static class ShakeHelper
     {
-        public static async UniTaskVoid Shake(Transform transform, float duration, float force,
+        public static async UniTaskVoid Handle(Transform transform, float duration, float force,
             AnimationCurve animationCurve)
         {
             transform.rotation = quaternion.identity;

@@ -26,7 +26,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
         private async UniTask HandleTileClick(Vector3 inputPosition)
         {
             var tileData = BoardHelper.GetTileDataByCoordinate(BoardConstants.TileData, inputPosition);
-            if (tileData.Tile is null) return;
+            if (tileData is null) return;
 
             await _boardBlastController.TryBlast(tileData);
             _boardShakeController.TryShake(tileData);

@@ -34,10 +34,8 @@ namespace _Game.BoardSystem.BoardModel.Scripts
                 var tile = i <= (int)(gridList.Count * 0.5f)
                     ? _woodFactory.CreateTile(coordinate)
                     : _gemFactory.CreateTile(coordinate);
-                var bottomLeft = coordinate - _halfGridSize;
-                var topRight = coordinate + _halfGridSize;
 
-                tempList.Add(new TileData(coordinate, tile, bottomLeft, topRight));
+                tempList.Add(new TileData(coordinate, tile));
             }
 
             BoardConstants.TileData.Clear();
@@ -86,8 +84,6 @@ namespace _Game.BoardSystem.BoardModel.Scripts
         [Inject] private WoodFactory _woodFactory;
 
         #endregion
-
-        private readonly Vector2 _halfGridSize = new(0.5f, 0.5f);
 
         #endregion
     }

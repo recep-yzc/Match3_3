@@ -5,7 +5,7 @@ namespace _Game.TileSystem.AbilityModel.ScaleUpDown.Scripts
 {
     public static class ScaleUpDownHelper
     {
-        public static async UniTaskVoid ScaleUpDown(Transform transform, float duration, Vector3 force,
+        public static async UniTaskVoid Handle(Transform transform, float duration, Vector3 force,
             AnimationCurve animationCurve)
         {
             transform.localScale = Vector3.one;
