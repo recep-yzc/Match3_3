@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Game.TileSystem.TileModel.Scripts;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using UnityEngine;
+using Zenject;
 
 namespace _Game.BoardSystem.BoardModel.Scripts
 {
@@ -14,32 +16,33 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         #endregion
 
-        public async Task TryBlast(TileData tileData)
+        public async Task<List<TileData>> TryBlast(TileData tileData)
         {
-            if (tileData.Blast is null) return;
-            await HandleForBlast(tileData, tileData.Tile.TileId);
+            if (tileData.Blast is null) return null;
+            var result = await HandleForBlast(tileData, tileData.Tile.TileId);
+            return result;
         }
 
-        private async Task HandleForBlast(TileData tileData, TileId tileId)
+        private async Task<List<TileData>> HandleForBlast(TileData tileData, TileId tileId)
         {
-            var similarGemTiles = await GetSimilarTiles(tileData, tileId);
-            if (similarGemTiles.Count < MinBlastAmount) return;
+            var similarTiles = await GetSimilarTiles(tileData, tileId);
+            if (similarTiles.Count < MinBlastAmount) return null;
 
-            foreach (var similarGemTile in similarGemTiles) similarGemTile.Blast.Blast();
+            foreach (var similarTile in similarTiles)
+            {
+                similarTile.Blast.Blast();
+            }
+
+            return similarTiles;
         }
 
         private async UniTask<List<TileData>> GetSimilarTiles(TileData tileData, TileId tileId)
         {
             var similarTiles = new List<TileData>();
 
-            switch (tileId)
+            if (tileId == TileId.Gem)
             {
-                case TileId.Gem:
-                    await FindSimilarGemTiles(similarTiles, tileData);
-                    break;
-                case TileId.Wood:
-                    await FindSimilarWoodTiles(similarTiles, tileData);
-                    break;
+                await FindSimilarGemTiles(similarTiles, tileData);
             }
 
             return similarTiles;
@@ -55,18 +58,6 @@ namespace _Game.BoardSystem.BoardModel.Scripts
             foreach (var nTileData in tileData.NeighborTileData)
                 if (nTileData?.Gem?.GemId == tileData.Gem.GemId)
                     await FindSimilarGemTiles(similarTiles, nTileData);
-        }
-
-        private async UniTask FindSimilarWoodTiles(ICollection<TileData> similarTiles, TileData tileData)
-        {
-            if (tileData.Wood is null) return;
-            if (similarTiles.Contains(tileData)) return;
-
-            similarTiles.Add(tileData);
-
-            foreach (var nTileData in tileData.NeighborTileData)
-                if (nTileData?.Wood is not null)
-                    await FindSimilarWoodTiles(similarTiles, nTileData);
         }
     }
 }

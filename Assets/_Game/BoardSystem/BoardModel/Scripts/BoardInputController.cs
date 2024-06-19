@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using _Game.TileSystem.TileModel.Scripts;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Zenject;
@@ -28,9 +30,22 @@ namespace _Game.BoardSystem.BoardModel.Scripts
             var tileData = BoardHelper.GetTileDataByCoordinate(BoardConstants.TileData, inputPosition);
             if (tileData is null) return;
 
-            await _boardBlastController.TryBlast(tileData);
+            if (await TryBlast(tileData)) return;
+
             _boardShakeController.TryShake(tileData);
             _boardScaleUpDownController.TryScaleUpDown(tileData);
+        }
+
+        private async Task<bool> TryBlast(TileData tileData)
+        {
+            var result = await _boardBlastController.TryBlast(tileData);
+            if (result is null) return false;
+
+            foreach (var blastTileData in result)
+            {
+            }
+
+            return result.Count > 0;
         }
 
         private void FetchCameraData()

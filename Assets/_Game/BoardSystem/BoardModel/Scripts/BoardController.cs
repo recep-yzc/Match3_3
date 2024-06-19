@@ -28,13 +28,9 @@ namespace _Game.BoardSystem.BoardModel.Scripts
             var gridList = _gridDataSo.playableGridList;
             var tempList = new List<TileData>(gridList.Count);
 
-            for (var i = 0; i < gridList.Count; i++)
+            foreach (var coordinate in gridList)
             {
-                var coordinate = gridList[i];
-                var tile = i <= (int)(gridList.Count * 0.5f)
-                    ? _woodFactory.CreateTile(coordinate)
-                    : _gemFactory.CreateTile(coordinate);
-
+                var tile = _gemFactory.CreateTile(coordinate);
                 tempList.Add(new TileData(coordinate, tile));
             }
 
@@ -86,5 +82,9 @@ namespace _Game.BoardSystem.BoardModel.Scripts
         #endregion
 
         #endregion
+
+        public void TryCreate(List<TileData> tileData)
+        {
+        }
     }
 }
