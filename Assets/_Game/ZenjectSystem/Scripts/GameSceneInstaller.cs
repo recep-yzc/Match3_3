@@ -18,6 +18,7 @@ namespace _Game.ZenjectSystem.Scripts
             Container.BindInstance(FindObjectOfType<BoardBlastController>());
             Container.BindInstance(FindObjectOfType<BoardShakeController>());
             Container.BindInstance(FindObjectOfType<BoardScaleUpDownController>());
+            Container.BindInstance(FindObjectOfType<BoardFallController>());
         }
     }
 }

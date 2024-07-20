@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Game.TileSystem.AbilityModel.Blast.Scripts;
+using _Game.TileSystem.GemModel.Scripts;
 using _Game.TileSystem.TileModel.Scripts;
 using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
@@ -18,8 +20,8 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         public async Task<List<TileData>> TryBlast(TileData tileData)
         {
-            if (tileData.Blast is null) return null;
-            var result = await HandleForBlast(tileData, tileData.Tile.TileId);
+            if (tileData.GetTileComponents<IBlast>() is null) return null;
+            var result = await HandleForBlast(tileData, tileData.GetTileComponents<ITile>().TileId);
             return result;
         }
 
@@ -30,7 +32,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
             foreach (var similarTile in similarTiles)
             {
-                similarTile.Blast.Blast();
+                similarTile.GetTileComponents<IBlast>().Blast();
             }
 
             return similarTiles;
@@ -50,14 +52,24 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         private async UniTask FindSimilarGemTiles(ICollection<TileData> similarTiles, TileData tileData)
         {
-            if (tileData.Gem is null) return;
+            if (tileData.IsEmpty) return;
+            if (tileData.GetTileComponents<IGem>() is null) return;
+
             if (similarTiles.Contains(tileData)) return;
 
             similarTiles.Add(tileData);
 
             foreach (var nTileData in tileData.NeighborTileData)
-                if (nTileData?.Gem?.GemId == tileData.Gem.GemId)
+            {
+                if (nTileData is null) continue;
+                if (nTileData.IsEmpty) continue;
+
+                var nTileGemId = nTileData.GetTileComponents<IGem>()?.GemId;
+                var tileGemId = tileData.GetTileComponents<IGem>()?.GemId;
+                
+                if (nTileGemId == tileGemId)
                     await FindSimilarGemTiles(similarTiles, nTileData);
+            }
         }
     }
 }

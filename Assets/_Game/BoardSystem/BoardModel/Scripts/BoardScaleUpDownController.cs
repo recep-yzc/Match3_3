@@ -15,7 +15,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         public void TryScaleUpDown(TileData tileData)
         {
-            tileData.ScaleUpDown?.ScaleUpDownAsync(_scaleUpDownDataSo).Forget();
+            tileData.GetTileComponents<IScaleUpDown>()?.ScaleUpDownAsync(_scaleUpDownDataSo).Forget();
         }
     }
 }

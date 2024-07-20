@@ -49,31 +49,9 @@ namespace _Game.TileSystem.TileModel.Scripts
         public Vector2 TopRight => Coordinate + VectorHelper.Half;
         public TileData[] NeighborTileData { get; private set; }
 
-        #region Tile
-
-        public ITile Tile => _tile ??= GameObject.GetComponent<ITile>();
-        private ITile _tile;
-        public IGem Gem => _gem ??= GameObject.GetComponent<IGem>();
-        private IGem _gem;
-        public IWood Wood => _wood ??= GameObject.GetComponent<IWood>();
-        private IWood _wood;
-
-        #endregion
-
-        #region Ability
-
-        public IBlast Blast => _blast ??= GameObject.GetComponent<IBlast>();
-        private IBlast _blast;
-
-        public IFall Fall => _fall ??= GameObject.GetComponent<IFall>();
-        private IFall _fall;
-
-        public IShake Shake => _shake ??= GameObject.GetComponent<IShake>();
-        private IShake _shake;
-
-        public IScaleUpDown ScaleUpDown => _scaleUpDown ??= GameObject.GetComponent<IScaleUpDown>();
-        private IScaleUpDown _scaleUpDown;
-
-        #endregion
+        public T GetTileComponents<T>()
+        {
+            return GameObject.GetComponent<T>();
+        }
     }
 }

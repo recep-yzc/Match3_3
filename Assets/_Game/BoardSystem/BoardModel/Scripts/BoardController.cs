@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using _Game.DictionarySystem.DictionaryModel.Scripts;
 using _Game.GridSystem.GridModel.Scripts;
 using _Game.TileSystem.DirectionModel.Scripts;
 using _Game.TileSystem.GemModel.Scripts;
@@ -18,30 +19,49 @@ namespace _Game.BoardSystem.BoardModel.Scripts
         {
             Application.targetFrameRate = 60;
             FetchGridDataSo();
+            ClearTile();
             CreateTile();
+            FetchNeighbor();
         }
-
+        
         #endregion
+
+        private void ClearTile()
+        {
+            BoardConstants.TileData.Clear();
+            BoardConstants.VerticalTileData.Clear();
+            BoardConstants.HorizontalTileData.Clear();
+        }
 
         private void CreateTile()
         {
             var gridList = _gridDataSo.playableGridList;
-            var tempList = new List<TileData>(gridList.Count);
 
             foreach (var coordinate in gridList)
-            {
+            { 
                 var tile = _gemFactory.CreateTile(coordinate);
-                tempList.Add(new TileData(coordinate, tile));
+                var tileData = new TileData(coordinate, tile);
+
+                DictionaryHelper.AddTileDataToDictionary(BoardConstants.HorizontalTileData, coordinate.x, tileData);
+                DictionaryHelper.AddTileDataToDictionary(BoardConstants.VerticalTileData, coordinate.y, tileData);
+                BoardConstants.TileData.Add(tileData);
             }
+            
+            DictionaryHelper.OrderByHorizontal(BoardConstants.HorizontalTileData);
+            DictionaryHelper.OrderByVertical(BoardConstants.VerticalTileData);
+        }
 
-            BoardConstants.TileData.Clear();
-            BoardConstants.TileData.AddRange(tempList);
-
-            Parallel.ForEach(tempList, tileData =>
+        private void FetchNeighbor()
+        {
+            Parallel.ForEach(BoardConstants.TileData, tileData =>
             {
                 var neighborTileList = GetNeighborTiles(tileData.Coordinate);
                 tileData.SetNeighborTileData(neighborTileList);
             });
+        }
+        
+        public void TryCreate(List<TileData> tileData)
+        {
         }
 
         private TileData[] GetNeighborTiles(Vector2 coordinate)
@@ -82,9 +102,5 @@ namespace _Game.BoardSystem.BoardModel.Scripts
         #endregion
 
         #endregion
-
-        public void TryCreate(List<TileData> tileData)
-        {
-        }
     }
 }

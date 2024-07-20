@@ -29,8 +29,13 @@ namespace _Game.BoardSystem.BoardModel.Scripts
         {
             var tileData = BoardHelper.GetTileDataByCoordinate(BoardConstants.TileData, inputPosition);
             if (tileData is null) return;
+            if (tileData.IsEmpty) return;
 
-            if (await TryBlast(tileData)) return;
+            if (await TryBlast(tileData))
+            {
+                _boardFallController.TryFall();
+                return;
+            }
 
             _boardShakeController.TryShake(tileData);
             _boardScaleUpDownController.TryScaleUpDown(tileData);
@@ -43,6 +48,8 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
             foreach (var blastTileData in result)
             {
+                blastTileData.SetIsEmpty(true);
+                blastTileData.SetGameObject(null);
             }
 
             return result.Count > 0;
@@ -57,6 +64,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         #region Controller
 
+        [Inject] private BoardFallController _boardFallController;
         [Inject] private BoardBlastController _boardBlastController;
         [Inject] private BoardShakeController _boardShakeController;
         [Inject] private BoardScaleUpDownController _boardScaleUpDownController;
