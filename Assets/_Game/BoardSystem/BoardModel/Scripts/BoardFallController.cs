@@ -1,41 +1,65 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Game.TileSystem.AbilityModel.Fall.Scripts;
+using _Game.TileSystem.EmptyModel.Scripts;
 using _Game.TileSystem.GemModel.Scripts;
+using _Game.TileSystem.TileModel.Scripts;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace _Game.BoardSystem.BoardModel.Scripts
 {
     public class BoardFallController : MonoBehaviour
     {
-        public void TryFall()
+        #region Private
+
+        [Inject] private FallDataSo _fallDataSo;
+
+        #endregion
+
+        public async UniTask TryFall()
         {
+            var fallTileData = new List<TileData>();
+            var fallTasks = new List<UniTask>();
+
             foreach (var horizontalTileData in BoardConstants.HorizontalTileData)
             {
                 var tiles = horizontalTileData.Value;
 
                 for (var i = 0; i < tiles.Count; i++)
                 {
-                    if (tiles[i] is null || !tiles[i].IsEmpty)
-                    {
-                        continue;
-                    }
+                    if (tiles[i] is null || !tiles[i].IsEmpty) continue;
 
                     for (var j = i + 1; j < tiles.Count; j++)
                     {
                         if (tiles[j].IsEmpty) continue;
-                        var nextGameObject = tiles[j].GameObject;
 
-                        tiles[i].SetGameObject(nextGameObject);
-                        tiles[j].SetGameObject(null);
+                        var bottomTile = tiles[i];
+                        var topTile = tiles[j];
 
-                        tiles[i].SetIsEmpty(false);
-                        tiles[j].SetIsEmpty(true);
+                        if (topTile.GetTileComponents<IEmpty>() != null) break;
 
-                        nextGameObject.GetComponent<IFall>().Fall(tiles[i].Coordinate);
+                        bottomTile.SetGameObject(topTile.GameObject);
+                        topTile.SetGameObject(null);
+
+                        bottomTile.SetIsEmpty(false);
+                        topTile.SetIsEmpty(true);
+
+                        fallTileData.Add(bottomTile);
                         break;
                     }
                 }
             }
+
+            foreach (var tileData in fallTileData)
+            {
+                var fallTask = tileData.GameObject.GetComponent<IFall>().FallAsync(tileData.Coordinate, _fallDataSo);
+                fallTasks.Add(fallTask);
+            }
+
+            await UniTask.WhenAll(fallTasks);
         }
 
         private void OnDrawGizmos()
@@ -78,8 +102,8 @@ namespace _Game.BoardSystem.BoardModel.Scripts
                         }
                     }
                 }
-                
-                Gizmos.DrawCube(tileData.Coordinate, Vector3.one*0.5f);
+
+                Gizmos.DrawCube(tileData.Coordinate, Vector3.one * 0.5f);
             }
         }
     }

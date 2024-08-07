@@ -1,3 +1,4 @@
+using _Game.TileSystem.TileModel.Scripts;
 using UnityEngine;
 
 namespace _Game.GridSystem.GridModel.Scripts
@@ -8,16 +9,26 @@ namespace _Game.GridSystem.GridModel.Scripts
 
         private void OnDrawGizmos()
         {
-            foreach (var vector2 in gridDataSo.allGridList)
+            foreach (var tileLevelData in gridDataSo.tileLevelData)
             {
-                Gizmos.color = Color.white;
-                Gizmos.DrawWireCube(vector2, Vector3.one);
-            }
+                var coordinate = tileLevelData.coordinate;
+                
+                switch (tileLevelData.tileId)
+                {
+                    case TileId.Empty:
+                        //Gizmos.DrawIcon(coordinate, "", true);
+                        break;
+                    case TileId.Gem:
+                        Gizmos.DrawIcon(coordinate, tileLevelData.gemId.ToString(), true);
+                        break;
+                    case TileId.Wood:
+                        //Gizmos.DrawIcon(coordinate, "", true);
+                        break;
 
-            foreach (var vector2 in gridDataSo.playableGridList)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireCube(vector2, Vector3.one * 0.9f);
+                }
+                
+                Gizmos.color = Color.white;
+                Gizmos.DrawWireCube(coordinate, Vector3.one);
             }
         }
     }

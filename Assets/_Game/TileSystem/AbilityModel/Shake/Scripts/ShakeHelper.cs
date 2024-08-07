@@ -1,3 +1,4 @@
+using _Game.TileSystem.AbilityModel.Fall.Scripts;
 using Cysharp.Threading.Tasks;
 using Unity.Mathematics;
 using UnityEngine;
@@ -6,9 +7,12 @@ namespace _Game.TileSystem.AbilityModel.Shake.Scripts
 {
     public static class ShakeHelper
     {
-        public static async UniTaskVoid Handle(Transform transform, float duration, float force,
-            AnimationCurve animationCurve)
+        public static async UniTaskVoid Handle(Transform transform, ShakeDataSo shakeDataSo)
         {
+            var duration = shakeDataSo.duration;
+            var animationCurve = shakeDataSo.animationCurve;
+            var force = shakeDataSo.force;
+            
             transform.rotation = quaternion.identity;
 
             var elapsedTime = 0f;

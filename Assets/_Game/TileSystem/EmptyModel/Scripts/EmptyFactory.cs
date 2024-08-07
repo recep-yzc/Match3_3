@@ -2,12 +2,12 @@ using _Game.TileSystem.TileModel.Scripts;
 using UnityEngine;
 using Zenject;
 
-namespace _Game.TileSystem.WoodModel.Scripts
+namespace _Game.TileSystem.EmptyModel.Scripts
 {
-    public class WoodFactory : TileFactory
+    public class EmptyFactory : TileFactory
     {
         [Header("References")] [SerializeField]
-        private Wood woodPrefab;
+        private Empty emptyPrefab;
 
         #region Private
 
@@ -17,17 +17,14 @@ namespace _Game.TileSystem.WoodModel.Scripts
 
         public override GameObject CreateTile(TileLevelData tileLevelData)
         {
-            var wood = _diContainer.InstantiatePrefab(woodPrefab);
-            var iWood = wood.GetComponent<IWood>();
-            var iTile = wood.GetComponent<ITile>();
+            var empty = _diContainer.InstantiatePrefab(emptyPrefab);
+            var iTile = empty.GetComponent<ITile>();
 
             iTile.SetPosition(tileLevelData.coordinate);
             iTile.SetParent(transform);
-            iTile.SetTileId(TileId.Wood);
+            iTile.SetTileId(TileId.Empty);
 
-            iWood.SetShield(2);
-
-            return wood;
+            return empty;
         }
     }
 }

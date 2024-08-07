@@ -1,3 +1,5 @@
+using _Game.TileSystem.GemModel.Scripts;
+using _Game.TileSystem.TileModel.Scripts;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,8 +13,12 @@ namespace _Game.GridSystem.GridModel.Scripts
 
         [SerializeField] [ReadOnly] private bool isEditScene;
 
-        [Header("Properties")] [SerializeField]
-        private KeyCode enableDisableKey;
+        [Header("Properties")]
+        [SerializeField] private TileId tileId;
+        [ShowIf("tileId", TileId.Gem), SerializeField]
+        private GemId gemId;
+
+        [SerializeField] private KeyCode changeTile;
 
         private void Update()
         {
@@ -21,15 +27,18 @@ namespace _Game.GridSystem.GridModel.Scripts
 
             var inputPosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
-            foreach (var grid in gridDataSo.allGridList)
+            foreach (var tileLevelData in gridDataSo.tileLevelData)
             {
-                var bottomLeft = grid - _halfGridSize;
-                var topRight = grid + _halfGridSize;
+                var bottomLeft = tileLevelData.coordinate - _halfGridSize;
+                var topRight = tileLevelData.coordinate + _halfGridSize;
 
                 var isDotIn = GridHelper.CheckOverlapWithDot(bottomLeft, topRight, inputPosition);
                 if (!isDotIn) continue;
 
-                if (Input.GetKeyDown(enableDisableKey)) EnableDisable(grid);
+                if (Input.GetKeyDown(changeTile))
+                {
+                    ChangeTileData(tileLevelData);
+                }
 
                 gridDataSo.Save();
                 break;
@@ -46,12 +55,10 @@ namespace _Game.GridSystem.GridModel.Scripts
 
         #endregion
 
-        private void EnableDisable(Vector2 grid)
+        private void ChangeTileData(TileLevelData tileLevelData)
         {
-            if (gridDataSo.playableGridList.Contains(grid))
-                gridDataSo.playableGridList.Remove(grid);
-            else
-                gridDataSo.playableGridList.Add(grid);
+            tileLevelData.tileId = tileId;
+            tileLevelData.gemId = gemId;
         }
 
         #region Private

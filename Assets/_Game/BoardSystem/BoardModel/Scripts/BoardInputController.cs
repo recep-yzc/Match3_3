@@ -33,7 +33,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
             if (await TryBlast(tileData))
             {
-                _boardFallController.TryFall();
+                await _boardFallController.TryFall();
                 return;
             }
 

@@ -1,6 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.TileSystem.GemModel.Scripts;
+using _Game.TileSystem.TileModel.Scripts;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,8 +13,7 @@ namespace _Game.GridSystem.GridModel.Scripts
     [CreateAssetMenu(fileName = "GridDataSo", menuName = "Game/Grid/Data")]
     public class GridDataSo : ScriptableObject
     {
-        [PropertyOrder(2)] public List<Vector2> allGridList;
-        [PropertyOrder(3)] public List<Vector2> playableGridList;
+        [PropertyOrder(0)] public List<TileLevelData> tileLevelData = new();
 
         [ShowInInspector]
         [MinValue(2)]
@@ -19,11 +22,7 @@ namespace _Game.GridSystem.GridModel.Scripts
         public int Rows
         {
             get => row;
-            set
-            {
-                row = value;
-                UpdateGridList();
-            }
+            set => row = value;
         }
 
         [ShowInInspector]
@@ -33,31 +32,24 @@ namespace _Game.GridSystem.GridModel.Scripts
         public int Columns
         {
             get => column;
-            set
-            {
-                column = value;
-                UpdateGridList();
-            }
+            set => column = value;
         }
 
-        private void UpdateGridList()
+        [Button]
+        [PropertyOrder(4)]
+        public void CreateTileLevelData()
         {
-            allGridList = new List<Vector2>();
-
+            tileLevelData = new();
             var halfOfRows = Rows * 0.5f;
             var halfOfColumns = Columns * 0.5f;
             var offset = new Vector2(halfOfRows, halfOfColumns) - Vector2.one * 0.5f;
 
             for (var x = 0; x < Rows; x++)
             for (var y = 0; y < Columns; y++)
-                allGridList.Add(new Vector2(x, y) - offset);
-        }
-
-        [Button]
-        [PropertyOrder(4)]
-        public void ResetPlayableGridList()
-        {
-            playableGridList = new List<Vector2>(allGridList);
+                tileLevelData.Add(new TileLevelData()
+                {
+                    coordinate = new Vector2(x, y) - offset
+                });
         }
 
         public void Save()

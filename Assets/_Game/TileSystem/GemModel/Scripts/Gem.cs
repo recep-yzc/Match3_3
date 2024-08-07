@@ -29,12 +29,12 @@ namespace _Game.TileSystem.GemModel.Scripts
 
         public UniTaskVoid ShakeAsync(ShakeDataSo shakeDataSo)
         {
-            return ShakeHelper.Handle(transform, shakeDataSo.duration, shakeDataSo.force, shakeDataSo.animationCurve);
+            return ShakeHelper.Handle(transform, shakeDataSo);
         }
 
-        public void Fall(Vector2 position)
+        public UniTask FallAsync(Vector2 target,FallDataSo fallDataSo)
         {
-            transform.DOMove(position, 0.3f);
-        }
+            return FallHelper.Handle(transform, target, fallDataSo);
+         }
     }
 }

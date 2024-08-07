@@ -1,11 +1,5 @@
 using System;
 using _Game.MathSystem.VectorModel.Scripts;
-using _Game.TileSystem.AbilityModel.Blast.Scripts;
-using _Game.TileSystem.AbilityModel.Fall.Scripts;
-using _Game.TileSystem.AbilityModel.ScaleUpDown.Scripts;
-using _Game.TileSystem.AbilityModel.Shake.Scripts;
-using _Game.TileSystem.GemModel.Scripts;
-using _Game.TileSystem.WoodModel.Scripts;
 using UnityEngine;
 
 namespace _Game.TileSystem.TileModel.Scripts

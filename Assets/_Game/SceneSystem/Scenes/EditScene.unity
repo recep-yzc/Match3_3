@@ -154,7 +154,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridDataSo: {fileID: 11400000, guid: 6abb951d4f4af3246bb017c7969badb2, type: 2}
   isEditScene: 1
-  enableDisableKey: 32
+  tileId: 0
+  gemId: 0
+  changeTile: 0
 --- !u!4 &112421228
 Transform:
   m_ObjectHideFlags: 0

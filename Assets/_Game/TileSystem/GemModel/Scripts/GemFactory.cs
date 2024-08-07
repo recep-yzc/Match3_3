@@ -1,9 +1,7 @@
 using _Game.EnumSystem.EnumModel.Scripts;
-using _Game.TileSystem.AbilityModel.Blast.Scripts;
 using _Game.TileSystem.TileModel.Scripts;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace _Game.TileSystem.GemModel.Scripts
 {
@@ -21,21 +19,20 @@ namespace _Game.TileSystem.GemModel.Scripts
 
         #endregion
 
-        public override GameObject CreateTile(Vector2 coordinate)
+        public override GameObject CreateTile(TileLevelData tileLevelData)
         {
             var gem = _diContainer.InstantiatePrefab(gemPrefab);
 
             var iTile = gem.GetComponent<ITile>();
             var iGem = gem.GetComponent<IGem>();
 
-            iTile.SetPosition(coordinate);
+            iTile.SetPosition(tileLevelData.coordinate);
             iTile.SetParent(transform);
             iTile.TileId = TileId.Gem;
 
-            var gemId = (GemId)Random.Range(0, _gemIdLength);
-            var sprite = _gemDataSo.GetSpriteByGemId(gemId);
+            var sprite = _gemDataSo.GetSpriteByGemId(tileLevelData.gemId);
 
-            iGem.SetGemId(gemId);
+            iGem.SetGemId(tileLevelData.gemId);
             iGem.SetSprite(sprite);
 
             return gem;

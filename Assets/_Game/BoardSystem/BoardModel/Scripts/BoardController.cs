@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using _Game.DictionarySystem.DictionaryModel.Scripts;
 using _Game.GridSystem.GridModel.Scripts;
 using _Game.TileSystem.DirectionModel.Scripts;
+using _Game.TileSystem.EmptyModel.Scripts;
 using _Game.TileSystem.GemModel.Scripts;
 using _Game.TileSystem.TileModel.Scripts;
 using _Game.TileSystem.WoodModel.Scripts;
@@ -23,7 +25,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
             CreateTile();
             FetchNeighbor();
         }
-        
+
         #endregion
 
         private void ClearTile()
@@ -35,18 +37,35 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         private void CreateTile()
         {
-            var gridList = _gridDataSo.playableGridList;
+            var tileLevelData = _gridDataSo.tileLevelData;
 
-            foreach (var coordinate in gridList)
-            { 
-                var tile = _gemFactory.CreateTile(coordinate);
-                var tileData = new TileData(coordinate, tile);
+            foreach (var data in tileLevelData)
+            {
+                GameObject tile = null;
+                TileData tileData = null;
+
+                var tileId = data.tileId;
+                var coordinate = data.coordinate;
+
+                switch (tileId)
+                {
+                    case TileId.Empty:
+                        tile = _emptyFactory.CreateTile(data);
+                        tileData = new TileData(coordinate, tile);
+                        break;
+                    case TileId.Gem:
+                        tile = _gemFactory.CreateTile(data);
+                        tileData = new TileData(coordinate, tile);
+                        break;
+                    case TileId.Wood:
+                        break;
+                }
 
                 DictionaryHelper.AddTileDataToDictionary(BoardConstants.HorizontalTileData, coordinate.x, tileData);
                 DictionaryHelper.AddTileDataToDictionary(BoardConstants.VerticalTileData, coordinate.y, tileData);
                 BoardConstants.TileData.Add(tileData);
             }
-            
+
             DictionaryHelper.OrderByHorizontal(BoardConstants.HorizontalTileData);
             DictionaryHelper.OrderByVertical(BoardConstants.VerticalTileData);
         }
@@ -59,7 +78,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
                 tileData.SetNeighborTileData(neighborTileList);
             });
         }
-        
+
         public void TryCreate(List<TileData> tileData)
         {
         }
@@ -98,6 +117,7 @@ namespace _Game.BoardSystem.BoardModel.Scripts
 
         [Inject] private GemFactory _gemFactory;
         [Inject] private WoodFactory _woodFactory;
+        [Inject] private EmptyFactory _emptyFactory;
 
         #endregion
 

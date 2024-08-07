@@ -1,9 +1,10 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _Game.TileSystem.AbilityModel.Fall.Scripts
 {
     public interface IFall
     {
-        public void Fall(Vector2 position);
+        public UniTask FallAsync(Vector2 position, FallDataSo fallDataSo);
     }
 }
