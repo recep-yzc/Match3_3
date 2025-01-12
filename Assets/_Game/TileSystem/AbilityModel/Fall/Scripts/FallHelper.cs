@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -5,7 +6,8 @@ namespace _Game.TileSystem.AbilityModel.Fall.Scripts
 {
     public static class FallHelper
     {
-        public static async UniTask Handle(Transform transform, Vector3 targetPosition, FallDataSo fallDataSo)
+        public static async UniTask Handle(Transform transform, Vector3 targetPosition, FallDataSo fallDataSo,
+            CancellationToken cancellationToken)
         {
             var duration = fallDataSo.duration;
             var animationCurve = fallDataSo.animationCurve;
@@ -14,17 +16,19 @@ namespace _Game.TileSystem.AbilityModel.Fall.Scripts
 
             var startPosition = transform.position;
 
-            await MoveToTarget(transform, startPosition, targetPosition, duration);
+            await MoveToTarget(transform, startPosition, targetPosition, duration, cancellationToken);
 
             var startY = targetPosition.y;
             var endY = targetPosition.y - lastFallOffset;
-            
-            await YoyoMove(transform, targetPosition, startY, endY, lastFallDuration, animationCurve);
-            await YoyoMove(transform, targetPosition, endY, startY, lastFallDuration, animationCurve);
+
+            await YoyoMove(transform, targetPosition, startY, endY, lastFallDuration, animationCurve,
+                cancellationToken);
+            await YoyoMove(transform, targetPosition, endY, startY, lastFallDuration, animationCurve,
+                cancellationToken);
         }
 
         private static async UniTask MoveToTarget(Transform transform, Vector3 startPosition, Vector3 targetPosition,
-            float duration)
+            float duration, CancellationToken cancellationToken)
         {
             var elapsedTime = 0f;
             while (elapsedTime < duration)
@@ -34,12 +38,12 @@ namespace _Game.TileSystem.AbilityModel.Fall.Scripts
                 var position = Vector3.Lerp(startPosition, targetPosition, normalizedTime);
 
                 transform.position = position;
-                await UniTask.Yield(PlayerLoopTiming.Update);
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
             }
         }
 
         private static async UniTask YoyoMove(Transform transform, Vector3 targetPosition, float startY, float endY,
-            float duration, AnimationCurve animationCurve)
+            float duration, AnimationCurve animationCurve, CancellationToken cancellationToken)
         {
             var elapsedTime = 0f;
             while (elapsedTime < duration)
@@ -51,7 +55,7 @@ namespace _Game.TileSystem.AbilityModel.Fall.Scripts
 
                 targetPosition.y = newY;
                 transform.position = targetPosition;
-                await UniTask.Yield(PlayerLoopTiming.Update);
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
             }
         }
     }

@@ -9,7 +9,7 @@ namespace _Game.TileSystem.EmptyModel.Scripts
         [Header("References")] [SerializeField]
         private Empty emptyPrefab;
 
-        #region Private
+        #region Parameters
 
         [Inject] private DiContainer _diContainer;
 

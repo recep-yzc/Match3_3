@@ -1,4 +1,4 @@
-using _Game.BoardSystem.BoardModel.Scripts;
+using _Game.BoardSystem.Scripts;
 using _Game.TileSystem.EmptyModel.Scripts;
 using _Game.TileSystem.GemModel.Scripts;
 using _Game.TileSystem.WoodModel.Scripts;

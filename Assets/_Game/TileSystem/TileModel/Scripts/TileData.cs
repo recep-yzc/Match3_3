@@ -1,5 +1,5 @@
 using System;
-using _Game.MathSystem.VectorModel.Scripts;
+using _Game.UtilitySystem.Scripts;
 using UnityEngine;
 
 namespace _Game.TileSystem.TileModel.Scripts
@@ -30,13 +30,18 @@ namespace _Game.TileSystem.TileModel.Scripts
         {
             IsEmpty = isEmpty;
         }
-
+        
+        public void SetHasNeedFall(bool hasNeedFall)
+        {
+            HasNeedFall = hasNeedFall;
+        }
+        
         public void SetGameObject(GameObject gameObject)
         {
             GameObject = gameObject;
         }
-
         public bool IsEmpty { get; private set; }
+        public bool HasNeedFall { get; private set; }
         public Vector2 Coordinate { get; private set; }
         public GameObject GameObject { get; private set; }
         public Vector2 BottomLeft => Coordinate - VectorHelper.Half;

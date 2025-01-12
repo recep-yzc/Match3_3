@@ -1,22 +1,23 @@
+using System.Threading;
 using _Game.TileSystem.AbilityModel.Blast.Scripts;
 using _Game.TileSystem.AbilityModel.Fall.Scripts;
-using _Game.TileSystem.AbilityModel.ScaleUpDown.Scripts;
 using _Game.TileSystem.AbilityModel.Shake.Scripts;
 using _Game.TileSystem.TileModel.Scripts;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using UnityEngine;
 
 namespace _Game.TileSystem.GemModel.Scripts
 {
     public class Gem : Tile, IGem, IShake, IFall, IBlast
     {
-        #region Public
+        #region Parameters
 
         public GemId GemId { get; set; }
-
+        private CancellationTokenSource _cancellationShakeSource;
+        private CancellationTokenSource _cancellationFallToken;
+        
         #endregion
-
+        
         public void SetGemId(GemId gemId)
         {
             GemId = gemId;
@@ -29,12 +30,36 @@ namespace _Game.TileSystem.GemModel.Scripts
 
         public UniTaskVoid ShakeAsync(ShakeDataSo shakeDataSo)
         {
-            return ShakeHelper.Handle(transform, shakeDataSo);
+            DisposeShakeToken();
+
+            _cancellationShakeSource = new CancellationTokenSource();
+            return ShakeHelper.Handle(transform, shakeDataSo, _cancellationShakeSource.Token);
         }
 
-        public UniTask FallAsync(Vector2 target,FallDataSo fallDataSo)
+        private void DisposeShakeToken()
         {
-            return FallHelper.Handle(transform, target, fallDataSo);
-         }
+            _cancellationShakeSource?.Cancel();
+            _cancellationShakeSource?.Dispose();
+        }
+
+        public UniTask FallAsync(Vector2 target, FallDataSo fallDataSo)
+        {
+            DisposeFallToken();
+
+            _cancellationFallToken = new CancellationTokenSource();
+            return FallHelper.Handle(transform, target, fallDataSo, _cancellationFallToken.Token);
+        }
+
+        private void DisposeFallToken()
+        {
+            _cancellationFallToken?.Cancel();
+            _cancellationFallToken?.Dispose();
+        }
+
+        private void OnDestroy()
+        {
+            DisposeFallToken();
+            DisposeShakeToken();
+        }
     }
 }

@@ -1,4 +1,5 @@
-using _Game.EnumSystem.EnumModel.Scripts;
+using System.Collections.Generic;
+using System.Linq;
 using _Game.TileSystem.TileModel.Scripts;
 using UnityEngine;
 using Zenject;
@@ -10,18 +11,9 @@ namespace _Game.TileSystem.GemModel.Scripts
         [Header("References")] [SerializeField]
         private Gem gemPrefab;
 
-        #region First
-
-        private void Start()
-        {
-            _gemIdLength = EnumHelper.GetEnumLength<GemId>();
-        }
-
-        #endregion
-
         public override GameObject CreateTile(TileLevelData tileLevelData)
         {
-            var gem = _diContainer.InstantiatePrefab(gemPrefab);
+            var gem = GetGemInPool();
 
             var iTile = gem.GetComponent<ITile>();
             var iGem = gem.GetComponent<IGem>();
@@ -38,11 +30,26 @@ namespace _Game.TileSystem.GemModel.Scripts
             return gem;
         }
 
-        #region Private
+        private GameObject GetGemInPool()
+        {
+            var gem = _createdGemList.FirstOrDefault(x => !x.activeInHierarchy);
+            if (gem != null)
+            {
+                gem.SetActive(true);
+                return gem;
+            }
+
+            gem = _diContainer.InstantiatePrefab(gemPrefab);
+            _createdGemList.Add(gem);
+
+            return gem;
+        }
+
+        #region Parameters
 
         [Inject] private DiContainer _diContainer;
         [Inject] private GemDataSo _gemDataSo;
-        private int _gemIdLength;
+        private readonly List<GameObject> _createdGemList = new();
 
         #endregion
     }

@@ -9,7 +9,7 @@ namespace _Game.TileSystem.WoodModel.Scripts
         [Header("References")] [SerializeField]
         private Wood woodPrefab;
 
-        #region Private
+        #region Parameters
 
         [Inject] private DiContainer _diContainer;
 

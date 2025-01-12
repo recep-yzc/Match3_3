@@ -5,21 +5,21 @@ namespace _Game.TileSystem.DirectionModel.Scripts
 {
     public static class DirectionHelper
     {
-        public static Vector2 ToVector(this Direction direction)
+        public static Vector2 ToVector(this DirectionId directionId)
         {
-            return direction switch
+            return directionId switch
             {
-                Direction.Left => Vector2.left,
-                Direction.Right => Vector2.right,
-                Direction.Up => Vector2.up,
-                Direction.Down => Vector2.down,
+                DirectionId.Left => Vector2.left,
+                DirectionId.Right => Vector2.right,
+                DirectionId.Up => Vector2.up,
+                DirectionId.Down => Vector2.down,
                 _ => Vector2.zero
             };
         }
 
-        public static Direction[] GetAsArray()
+        public static DirectionId[] GetAsArray()
         {
-            return (Direction[])Enum.GetValues(typeof(Direction));
+            return (DirectionId[])Enum.GetValues(typeof(DirectionId));
         }
     }
 }
