@@ -38,14 +38,14 @@ namespace _Game.BoardSystem.Scripts
             _boardShakeController.TryShake(tileData);
             _boardScaleUpDownController.TryScaleUpDown(tileData);
         }
-        
+
         private void FetchCameraData()
         {
             _mainCamera = Camera.main;
         }
 
         #region Parameters
-        
+
         [Inject] private BoardController _boardController;
         [Inject] private BoardFallController _boardFallController;
         [Inject] private BoardBlastController _boardBlastController;

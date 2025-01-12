@@ -10,22 +10,28 @@ namespace _Game.TileSystem.GemModel.Scripts
 {
     public class Gem : Tile, IGem, IShake, IFall, IBlast
     {
-        #region Parameters
-
-        public GemId GemId { get; set; }
-        private CancellationTokenSource _cancellationShakeSource;
-        private CancellationTokenSource _cancellationFallToken;
-        
-        #endregion
-        
-        public void SetGemId(GemId gemId)
+        private void OnDestroy()
         {
-            GemId = gemId;
+            DisposeFallToken();
+            DisposeShakeToken();
         }
 
         public void Blast()
         {
             gameObject.SetActive(false);
+        }
+
+        public UniTask FallAsync(Vector2 target, FallDataSo fallDataSo)
+        {
+            DisposeFallToken();
+
+            _cancellationFallToken = new CancellationTokenSource();
+            return FallHelper.Handle(transform, target, fallDataSo, _cancellationFallToken.Token);
+        }
+
+        public void SetGemId(GemId gemId)
+        {
+            GemId = gemId;
         }
 
         public UniTaskVoid ShakeAsync(ShakeDataSo shakeDataSo)
@@ -42,24 +48,18 @@ namespace _Game.TileSystem.GemModel.Scripts
             _cancellationShakeSource?.Dispose();
         }
 
-        public UniTask FallAsync(Vector2 target, FallDataSo fallDataSo)
-        {
-            DisposeFallToken();
-
-            _cancellationFallToken = new CancellationTokenSource();
-            return FallHelper.Handle(transform, target, fallDataSo, _cancellationFallToken.Token);
-        }
-
         private void DisposeFallToken()
         {
             _cancellationFallToken?.Cancel();
             _cancellationFallToken?.Dispose();
         }
 
-        private void OnDestroy()
-        {
-            DisposeFallToken();
-            DisposeShakeToken();
-        }
+        #region Parameters
+
+        public GemId GemId { get; set; }
+        private CancellationTokenSource _cancellationShakeSource;
+        private CancellationTokenSource _cancellationFallToken;
+
+        #endregion
     }
 }

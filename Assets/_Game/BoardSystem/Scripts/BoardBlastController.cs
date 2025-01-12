@@ -19,7 +19,7 @@ namespace _Game.BoardSystem.Scripts
         public async Task<HashSet<TileData>> TryBlast(TileData tileData)
         {
             if (tileData.GetTileComponents<IBlast>() is null) return default;
-            
+
             var blastTileDataList = await HandleForBlast(tileData, tileData.GetTileComponents<ITile>().TileId);
             if (blastTileDataList is null) return default;
 
@@ -31,16 +31,13 @@ namespace _Game.BoardSystem.Scripts
 
             return blastTileDataList;
         }
-        
+
         private async Task<HashSet<TileData>> HandleForBlast(TileData tileData, TileId tileId)
         {
             var similarTiles = await GetSimilarTileDataList(tileData, tileId);
             if (similarTiles.Count < MinBlastAmount) return default;
 
-            foreach (var similarTile in similarTiles)
-            {
-                similarTile.GetTileComponents<IBlast>().Blast();
-            }
+            foreach (var similarTile in similarTiles) similarTile.GetTileComponents<IBlast>().Blast();
 
             return similarTiles;
         }
@@ -49,14 +46,11 @@ namespace _Game.BoardSystem.Scripts
         {
             var similarTiles = new HashSet<TileData>();
 
-            if (tileId == TileId.Gem)
-            {
-                await FindSimilarGemTileData(similarTiles, tileData);
-            }
+            if (tileId == TileId.Gem) await FindSimilarGemTileData(similarTiles, tileData);
 
             return similarTiles;
         }
-        
+
         private async UniTask FindSimilarGemTileData(HashSet<TileData> similarTiles, TileData tileData)
         {
             if (tileData.IsEmpty || tileData.GetTileComponents<IGem>() is not { } tileGem) return;
@@ -67,10 +61,7 @@ namespace _Game.BoardSystem.Scripts
                 if (nTileData is null || nTileData.IsEmpty) continue;
 
                 var nTileGem = nTileData.GetTileComponents<IGem>();
-                if (nTileGem?.GemId == tileGem.GemId)
-                {
-                    await FindSimilarGemTileData(similarTiles, nTileData);
-                }
+                if (nTileGem?.GemId == tileGem.GemId) await FindSimilarGemTileData(similarTiles, nTileData);
             }
         }
     }

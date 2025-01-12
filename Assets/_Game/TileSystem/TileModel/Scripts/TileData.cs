@@ -16,6 +16,14 @@ namespace _Game.TileSystem.TileModel.Scripts
             NeighborTileData = new TileData[4];
         }
 
+        public bool IsEmpty { get; private set; }
+        public bool HasNeedFall { get; private set; }
+        public Vector2 Coordinate { get; private set; }
+        public GameObject GameObject { get; private set; }
+        public Vector2 BottomLeft => Coordinate - VectorHelper.Half;
+        public Vector2 TopRight => Coordinate + VectorHelper.Half;
+        public TileData[] NeighborTileData { get; private set; }
+
         public void SetNeighborTileData(TileData[] neighborTileData)
         {
             Array.Copy(neighborTileData, NeighborTileData, NeighborTileData.Length);
@@ -30,23 +38,16 @@ namespace _Game.TileSystem.TileModel.Scripts
         {
             IsEmpty = isEmpty;
         }
-        
+
         public void SetHasNeedFall(bool hasNeedFall)
         {
             HasNeedFall = hasNeedFall;
         }
-        
+
         public void SetGameObject(GameObject gameObject)
         {
             GameObject = gameObject;
         }
-        public bool IsEmpty { get; private set; }
-        public bool HasNeedFall { get; private set; }
-        public Vector2 Coordinate { get; private set; }
-        public GameObject GameObject { get; private set; }
-        public Vector2 BottomLeft => Coordinate - VectorHelper.Half;
-        public Vector2 TopRight => Coordinate + VectorHelper.Half;
-        public TileData[] NeighborTileData { get; private set; }
 
         public T GetTileComponents<T>()
         {

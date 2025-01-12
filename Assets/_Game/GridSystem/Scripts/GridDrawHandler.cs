@@ -12,7 +12,7 @@ namespace _Game.GridSystem.Scripts
             foreach (var tileLevelData in gridDataSo.tileLevelData)
             {
                 var coordinate = tileLevelData.coordinate;
-                
+
                 switch (tileLevelData.tileId)
                 {
                     case TileId.Empty:
@@ -24,9 +24,8 @@ namespace _Game.GridSystem.Scripts
                     case TileId.Wood:
                         //Gizmos.DrawIcon(coordinate, "", true);
                         break;
-
                 }
-                
+
                 Gizmos.color = Color.white;
                 Gizmos.DrawWireCube(coordinate, Vector3.one);
             }

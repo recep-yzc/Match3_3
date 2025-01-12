@@ -1,5 +1,4 @@
 using System.Threading;
-using _Game.TileSystem.AbilityModel.Fall.Scripts;
 using Cysharp.Threading.Tasks;
 using Unity.Mathematics;
 using UnityEngine;
@@ -8,12 +7,13 @@ namespace _Game.TileSystem.AbilityModel.Shake.Scripts
 {
     public static class ShakeHelper
     {
-        public static async UniTaskVoid Handle(Transform transform, ShakeDataSo shakeDataSo, CancellationToken cancellationToken)
+        public static async UniTaskVoid Handle(Transform transform, ShakeDataSo shakeDataSo,
+            CancellationToken cancellationToken)
         {
             var duration = shakeDataSo.duration;
             var animationCurve = shakeDataSo.animationCurve;
             var force = shakeDataSo.force;
-            
+
             transform.rotation = quaternion.identity;
 
             var elapsedTime = 0f;
@@ -28,7 +28,7 @@ namespace _Game.TileSystem.AbilityModel.Shake.Scripts
 
                 var currentEulerAngles = transform.rotation.eulerAngles;
                 transform.rotation = Quaternion.Euler(currentEulerAngles.x, currentEulerAngles.y, rotationZ);
-                await UniTask.Yield(PlayerLoopTiming.Update,cancellationToken);
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken);
             }
         }
     }

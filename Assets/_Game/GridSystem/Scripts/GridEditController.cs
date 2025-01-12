@@ -13,9 +13,10 @@ namespace _Game.GridSystem.Scripts
 
         [SerializeField] [ReadOnly] private bool isEditScene;
 
-        [Header("Properties")]
-        [SerializeField] private TileId tileId;
-        [ShowIf("tileId", TileId.Gem), SerializeField]
+        [Header("Properties")] [SerializeField]
+        private TileId tileId;
+
+        [ShowIf("tileId", TileId.Gem)] [SerializeField]
         private GemId gemId;
 
         [SerializeField] private KeyCode changeTile;
@@ -35,22 +36,19 @@ namespace _Game.GridSystem.Scripts
                 var isDotIn = GridHelper.CheckOverlapWithDot(bottomLeft, topRight, inputPosition);
                 if (!isDotIn) continue;
 
-                if (Input.GetKeyDown(changeTile))
-                {
-                    ChangeTileData(tileLevelData);
-                }
+                if (Input.GetKeyDown(changeTile)) ChangeTileData(tileLevelData);
 
                 gridDataSo.Save();
                 break;
             }
         }
-        
+
         private void OnValidate()
         {
             isEditScene = SceneManager.GetActiveScene().name.Contains("EditScene");
             _mainCamera = Camera.main;
         }
-        
+
         private void ChangeTileData(TileLevelData tileLevelData)
         {
             tileLevelData.tileId = tileId;

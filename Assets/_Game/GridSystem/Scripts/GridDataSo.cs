@@ -35,14 +35,14 @@ namespace _Game.GridSystem.Scripts
         [PropertyOrder(4)]
         public void CreateTileLevelData()
         {
-            tileLevelData = new();
+            tileLevelData = new List<TileLevelData>();
             var halfOfRows = Rows * 0.5f;
             var halfOfColumns = Columns * 0.5f;
             var offset = new Vector2(halfOfRows, halfOfColumns) - Vector2.one * 0.5f;
 
             for (var x = 0; x < Rows; x++)
             for (var y = 0; y < Columns; y++)
-                tileLevelData.Add(new TileLevelData()
+                tileLevelData.Add(new TileLevelData
                 {
                     coordinate = new Vector2(x, y) - offset
                 });

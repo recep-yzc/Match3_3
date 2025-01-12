@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using _Game.TileSystem.AbilityModel.ScaleUpDown.Scripts;
 using _Game.TileSystem.TileModel.Scripts;
@@ -8,19 +7,22 @@ namespace _Game.TileSystem.WoodModel.Scripts
 {
     public class Wood : Tile, IWood, IScaleUpDown
     {
-        #region Parameters
+        private void OnDestroy()
+        {
+            DisposeScaleUpDownToken();
+        }
 
-        public int Shield { get; set; }
-        private CancellationTokenSource _cancellationScaleUpDownToken;
-
-        #endregion
-        
         public UniTaskVoid ScaleUpDownAsync(ScaleUpDownDataSo scaleUpDownDataSo)
         {
             DisposeScaleUpDownToken();
-            
+
             _cancellationScaleUpDownToken = new CancellationTokenSource();
             return ScaleUpDownHelper.Handle(transform, scaleUpDownDataSo, _cancellationScaleUpDownToken.Token);
+        }
+
+        public void SetShield(int shield)
+        {
+            Shield = shield;
         }
 
         private void DisposeScaleUpDownToken()
@@ -29,14 +31,11 @@ namespace _Game.TileSystem.WoodModel.Scripts
             _cancellationScaleUpDownToken?.Dispose();
         }
 
-        public void SetShield(int shield)
-        {
-            Shield = shield;
-        }
+        #region Parameters
 
-        private void OnDestroy()
-        {
-            DisposeScaleUpDownToken();
-        }
+        public int Shield { get; set; }
+        private CancellationTokenSource _cancellationScaleUpDownToken;
+
+        #endregion
     }
 }

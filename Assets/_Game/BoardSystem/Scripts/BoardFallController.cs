@@ -29,10 +29,7 @@ namespace _Game.BoardSystem.Scripts
                     var currentTile = tiles[i];
                     if (currentTile is null || !currentTile.IsEmpty)
                     {
-                        if (currentTile!.HasNeedFall)
-                        {
-                            fallTileData.Add(currentTile);
-                        }
+                        if (currentTile!.HasNeedFall) fallTileData.Add(currentTile);
                         continue;
                     }
 

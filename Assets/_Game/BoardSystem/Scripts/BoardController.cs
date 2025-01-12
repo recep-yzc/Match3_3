@@ -24,7 +24,7 @@ namespace _Game.BoardSystem.Scripts
             CreateTile();
             FetchNeighbor();
         }
-        
+
         private void ClearTile()
         {
             BoardConstants.TileDataList.Clear();
@@ -85,12 +85,13 @@ namespace _Game.BoardSystem.Scripts
                 foreach (var tileData in horizontalTileDataList.Value)
                 {
                     if (!tileData.IsEmpty) continue;
-                    
+
                     if (!emptyTileGroups.TryGetValue(tileData.Coordinate.x, out var tileGroup))
                     {
                         tileGroup = new List<TileData>();
                         emptyTileGroups[tileData.Coordinate.x] = tileGroup;
                     }
+
                     tileGroup.Add(tileData);
                 }
 
@@ -106,7 +107,7 @@ namespace _Game.BoardSystem.Scripts
                         {
                             tileId = (TileId)Random.Range(0, 4),
                             coordinate = currentTileData.Coordinate,
-                            gemId = (GemId)Random.Range(0, 6),
+                            gemId = (GemId)Random.Range(0, 6)
                         };
 
                         var tile = _gemFactory.CreateTile(tileLevelData);
@@ -121,7 +122,7 @@ namespace _Game.BoardSystem.Scripts
 
             await UniTask.DelayFrame(1);
         }
-        
+
         private TileData[] GetNeighborTiles(Vector2 coordinate)
         {
             var array = DirectionHelper.GetAsArray();
