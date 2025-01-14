@@ -1,0 +1,418 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f14d0721e459c714cb4629d71d10a7ba, type: 3}
+  m_Name: GridDataSo 1
+  m_EditorClassIdentifier: 
+  tileDataList:
+  - coordinate: {x: -4, y: -4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: -4, y: -3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: -4, y: -2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: -4, y: -1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: -4, y: -0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: -4, y: 0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: -4, y: 1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: -4, y: 2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: -4, y: 3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: -4, y: 4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: -3, y: -4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542435
+  - coordinate: {x: -3, y: -3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: -3, y: -2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: -3, y: -1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: -3, y: -0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: -3, y: 0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: -3, y: 1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542435
+  - coordinate: {x: -3, y: 2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: -3, y: 3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: -3, y: 4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: -2, y: -4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: -2, y: -3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: -2, y: -2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: -2, y: -1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: -2, y: -0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: -2, y: 0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: -2, y: 1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: -2, y: 2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542435
+  - coordinate: {x: -2, y: 3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: -2, y: 4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: -1, y: -4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: -1, y: -3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: -1, y: -2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542435
+  - coordinate: {x: -1, y: -1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: -1, y: -0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: -1, y: 0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: -1, y: 1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542435
+  - coordinate: {x: -1, y: 2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: -1, y: 3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: -1, y: 4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 0, y: -4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 0, y: -3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: 0, y: -2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 0, y: -1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 0, y: -0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 0, y: 0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 0, y: 1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 0, y: 2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 0, y: 3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 0, y: 4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 1, y: -4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 1, y: -3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 1, y: -2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 1, y: -1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542435
+  - coordinate: {x: 1, y: -0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: 1, y: 0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: 1, y: 1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542435
+  - coordinate: {x: 1, y: 2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 1, y: 3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: 1, y: 4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 2, y: -4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 2, y: -3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 2, y: -2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 2, y: -1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 2, y: -0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: 2, y: 0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 2, y: 1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 2, y: 2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: 2, y: 3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: 2, y: 4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 3, y: -4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: 3, y: -3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 3, y: -2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542435
+  - coordinate: {x: 3, y: -1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: 3, y: -0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 3, y: 0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: 3, y: 1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: 3, y: 2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: 3, y: 3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 3, y: 4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 4, y: -4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 4, y: -3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542436
+  - coordinate: {x: 4, y: -2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542435
+  - coordinate: {x: 4, y: -1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542431
+  - coordinate: {x: 4, y: -0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542433
+  - coordinate: {x: 4, y: 0.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: 4, y: 1.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: 4, y: 2.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  - coordinate: {x: 4, y: 3.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542434
+  - coordinate: {x: 4, y: 4.5}
+    tileId: 2
+    elementData:
+      rid: 6196008945149542432
+  rows: 9
+  columns: 10
+  generateType: 2
+  gemIdList: 010000000000000002000000040000000500000003000000
+  references:
+    version: 2
+    RefIds:
+    - rid: 6196008945149542431
+      type: {class: GemElementData, ns: _Game.TileSystem.Elements.Gem.Scripts, asm: Assembly-CSharp}
+      data:
+        tileId: 2
+        icon: {fileID: 21300000, guid: c4ab92873ab85e849966a459281aec09, type: 3}
+        gemId: 2
+    - rid: 6196008945149542432
+      type: {class: GemElementData, ns: _Game.TileSystem.Elements.Gem.Scripts, asm: Assembly-CSharp}
+      data:
+        tileId: 2
+        icon: {fileID: 21300000, guid: c06bc673b648ce840ba47aa4e3baa2b9, type: 3}
+        gemId: 1
+    - rid: 6196008945149542433
+      type: {class: GemElementData, ns: _Game.TileSystem.Elements.Gem.Scripts, asm: Assembly-CSharp}
+      data:
+        tileId: 2
+        icon: {fileID: 21300000, guid: 84858034c5cffcb4fabc0edbdec07e7b, type: 3}
+        gemId: 5
+    - rid: 6196008945149542434
+      type: {class: GemElementData, ns: _Game.TileSystem.Elements.Gem.Scripts, asm: Assembly-CSharp}
+      data:
+        tileId: 2
+        icon: {fileID: 21300000, guid: 0738f76182d29c74e91338b4f25980ce, type: 3}
+        gemId: 4
+    - rid: 6196008945149542435
+      type: {class: GemElementData, ns: _Game.TileSystem.Elements.Gem.Scripts, asm: Assembly-CSharp}
+      data:
+        tileId: 2
+        icon: {fileID: 21300000, guid: c24fb7022522f8a4fbf162fa0bf1536e, type: 3}
+        gemId: 3
+    - rid: 6196008945149542436
+      type: {class: GemElementData, ns: _Game.TileSystem.Elements.Gem.Scripts, asm: Assembly-CSharp}
+      data:
+        tileId: 2
+        icon: {fileID: 21300000, guid: c44310a0ea43feb468a8437fb55832b9, type: 3}
+        gemId: 0

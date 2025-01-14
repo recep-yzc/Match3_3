@@ -1,7 +1,7 @@
-using _Game.BoardSystem.Scripts;
-using _Game.TileSystem.EmptyModel.Scripts;
-using _Game.TileSystem.GemModel.Scripts;
-using _Game.TileSystem.WoodModel.Scripts;
+using _Game.Board.Scripts;
+using _Game.TileSystem.Elements.Empty.Scripts;
+using _Game.TileSystem.Elements.Gem.Scripts;
+using _Game.TileSystem.Elements.Wood.Scripts;
 using Zenject;
 
 namespace _Game.ZenjectSystem.Scripts
