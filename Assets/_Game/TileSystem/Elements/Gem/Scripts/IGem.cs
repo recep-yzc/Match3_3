@@ -4,8 +4,8 @@ namespace _Game.TileSystem.Elements.Gem.Scripts
 {
     public interface IGem
     {
-        public GemId GemId { get; set; }
         public void SetGemId(GemId gemId);
+        public GemId GetGemId();
         public void SetSprite(Sprite sprite);
     }
 }

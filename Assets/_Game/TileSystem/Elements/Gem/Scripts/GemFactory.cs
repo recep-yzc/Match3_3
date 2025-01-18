@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using _Game.TileSystem.Tile.Scripts;
 using UnityEngine;
 using Zenject;
@@ -7,58 +6,45 @@ using TileData = _Game.Level.Scripts.TileData;
 
 namespace _Game.TileSystem.Elements.Gem.Scripts
 {
+    [DefaultExecutionOrder(-2)]
     public class GemFactory : TileFactory
     {
         [Header("References")] [SerializeField]
-        private List<GemElementDataSo> gemDataSoList;
-
-        [Header("References")] [SerializeField]
         private Gem gemPrefab;
 
-        protected override void Awake()
+        #region UnityActions
+
+        protected override void Start()
         {
             TileConstants.FactoryList.TryAdd(TileId.Gem, this);
         }
 
+        #endregion
+
         public override GameObject Create(TileData tileData)
         {
             var tilePropertyGem = (GemElementData)tileData.elementData;
-            var gem = GetGemInPool();
+            var gemGameObject = GetGameObjectInPool(ref _createdGemList, gemPrefab.gameObject);
 
-            var iTile = gem.GetComponent<ITile>();
-            var iGem = gem.GetComponent<IGem>();
+            var iTile = gemGameObject.GetComponent<ITile>();
+            var iGem = gemGameObject.GetComponent<IGem>();
 
             iTile.SetPosition(tileData.coordinate);
             iTile.SetParent(transform);
             iTile.TileId = TileId.Gem;
 
-            var gemDataSo = gemDataSoList.First(x => x.data.gemId == tilePropertyGem.gemId);
+            var gemElementDataSo = _gemController.GetGemDataSo(tilePropertyGem.gemId);
 
-            iGem.SetGemId(gemDataSo.data.gemId);
-            iGem.SetSprite(gemDataSo.data.icon);
+            iGem.SetGemId(gemElementDataSo.data.gemId);
+            iGem.SetSprite(gemElementDataSo.data.icon);
 
-            return gem;
-        }
-
-        private GameObject GetGemInPool()
-        {
-            var gem = _createdGemList.FirstOrDefault(x => !x.activeInHierarchy);
-            if (gem != null)
-            {
-                gem.SetActive(true);
-                return gem;
-            }
-
-            gem = _diContainer.InstantiatePrefab(gemPrefab);
-            _createdGemList.Add(gem);
-
-            return gem;
+            return gemGameObject;
         }
 
         #region Parameters
 
-        [Inject] private DiContainer _diContainer;
-        private readonly List<GameObject> _createdGemList = new();
+        private List<GameObject> _createdGemList = new();
+        [Inject] private GemController _gemController;
 
         #endregion
     }

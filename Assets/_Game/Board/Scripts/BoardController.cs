@@ -16,6 +16,7 @@ using TileData = _Game.Level.Scripts.TileData;
 
 namespace _Game.Board.Scripts
 {
+    [DefaultExecutionOrder(-1)]
     public class BoardController : MonoBehaviour
     {
         private void Start()

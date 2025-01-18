@@ -5,9 +5,9 @@ using UnityEngine;
 namespace _Game.TileSystem.Elements.Gem.Scripts
 {
     [Serializable]
-    public struct GemSpriteData
+    public class LevelOfSpriteData
     {
-        public GemId gemId;
+        public int level;
         [PreviewField] public Sprite sprite;
     }
 }

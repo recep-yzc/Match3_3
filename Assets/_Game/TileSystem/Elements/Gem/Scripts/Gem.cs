@@ -9,11 +9,43 @@ namespace _Game.TileSystem.Elements.Gem.Scripts
 {
     public class Gem : Tile.Scripts.Tile, IGem, IShake, IFall, IBlast
     {
+        #region UnityActions
+
         private void OnDestroy()
         {
             DisposeFallToken();
             DisposeShakeToken();
         }
+
+        #endregion
+
+        private void DisposeShakeToken()
+        {
+            _cancellationShakeSource?.Cancel();
+            _cancellationShakeSource?.Dispose();
+        }
+
+        private void DisposeFallToken()
+        {
+            _cancellationFallToken?.Cancel();
+            _cancellationFallToken?.Dispose();
+        }
+
+        #region IGem
+
+        public void SetGemId(GemId gemId)
+        {
+            _gemId = gemId;
+        }
+
+        public GemId GetGemId()
+        {
+            return _gemId;
+        }
+
+        #endregion
+
+        #region Abilities
 
         public void Blast()
         {
@@ -28,11 +60,6 @@ namespace _Game.TileSystem.Elements.Gem.Scripts
             return FallHelper.Handle(transform, target, fallDataSo, _cancellationFallToken.Token);
         }
 
-        public void SetGemId(GemId gemId)
-        {
-            GemId = gemId;
-        }
-
         public UniTaskVoid ShakeAsync(ShakeDataSo shakeDataSo)
         {
             DisposeShakeToken();
@@ -41,21 +68,11 @@ namespace _Game.TileSystem.Elements.Gem.Scripts
             return ShakeHelper.Handle(transform, shakeDataSo, _cancellationShakeSource.Token);
         }
 
-        private void DisposeShakeToken()
-        {
-            _cancellationShakeSource?.Cancel();
-            _cancellationShakeSource?.Dispose();
-        }
-
-        private void DisposeFallToken()
-        {
-            _cancellationFallToken?.Cancel();
-            _cancellationFallToken?.Dispose();
-        }
+        #endregion
 
         #region Parameters
 
-        public GemId GemId { get; set; }
+        private GemId _gemId;
         private CancellationTokenSource _cancellationShakeSource;
         private CancellationTokenSource _cancellationFallToken;
 

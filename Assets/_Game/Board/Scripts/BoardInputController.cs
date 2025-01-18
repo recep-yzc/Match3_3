@@ -4,6 +4,7 @@ using Zenject;
 
 namespace _Game.Board.Scripts
 {
+    [DefaultExecutionOrder(-1)]
     public class BoardInputController : MonoBehaviour
     {
         private void Start()
@@ -30,8 +31,9 @@ namespace _Game.Board.Scripts
             {
                 _boardFallController.TryFall().Forget();
                 _boardController.TryCreate().Forget();
-                _boardFallController.TryFall().Forget();
 
+                _boardFallController.TryFall().Forget();
+                await _boardViewController.TryUpdateView();
                 return;
             }
 
@@ -48,6 +50,7 @@ namespace _Game.Board.Scripts
 
         [Inject] private BoardController _boardController;
         [Inject] private BoardFallController _boardFallController;
+        [Inject] private BoardViewController _boardViewController;
         [Inject] private BoardBlastController _boardBlastController;
         [Inject] private BoardShakeController _boardShakeController;
         [Inject] private BoardScaleUpDownController _boardScaleUpDownController;

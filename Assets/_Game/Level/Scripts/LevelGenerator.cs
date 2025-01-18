@@ -67,6 +67,7 @@ namespace _Game.Level.Scripts
 
         private void ChangeTileData(TileData tileData)
         {
+            if (TileConstants.SelectedElementDataSo == null) return;
             var elementData = TileConstants.SelectedElementDataSo.GetElementData();
 
             tileData.TileId = elementData.tileId;

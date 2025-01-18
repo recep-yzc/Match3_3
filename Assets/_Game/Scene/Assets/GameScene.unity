@@ -262,7 +262,7 @@ GameObject:
   - component: {fileID: 402646337}
   - component: {fileID: 402646338}
   m_Layer: 0
-  m_Name: NoneFactory
+  m_Name: None
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 626408176}
   - component: {fileID: 626408177}
   m_Layer: 0
-  m_Name: EmptyFactory
+  m_Name: Empty
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -340,7 +340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa1253ad6d6c0eb44950145e2c60d6fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  emptyElementDataSo: {fileID: 11400000, guid: 0bf80db4829037e4d997a85bdcd51df0, type: 2}
   emptyPrefab: {fileID: 4909554267863374022, guid: 8982f3e7693e150469eae3a79e2d4ad4,
     type: 3}
 --- !u!1 &771428981
@@ -396,9 +395,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1106473523}
+  - component: {fileID: 1106473525}
   - component: {fileID: 1106473524}
   m_Layer: 0
-  m_Name: GemFactory
+  m_Name: Gem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,15 +431,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2ada28e681a4832bb1a49b75beee200, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gemDataSoList:
+  gemPrefab: {fileID: 1679481287896336541, guid: 6562db61c773ceb45a083844b1a9a1d4,
+    type: 3}
+--- !u!114 &1106473525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106473522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af57ac3ce4ea402cac33ca403192159c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gemElementDataSoList:
+  - {fileID: 11400000, guid: 029b031875667724da64a5097c3178f5, type: 2}
   - {fileID: 11400000, guid: bc1329974071ab447a263e98f3f0ddc0, type: 2}
   - {fileID: 11400000, guid: a79ee78b4c509814d9e4bf69e3d15175, type: 2}
   - {fileID: 11400000, guid: 9dfd58e88b9b88f4691eba544a2015ee, type: 2}
-  - {fileID: 11400000, guid: 029b031875667724da64a5097c3178f5, type: 2}
   - {fileID: 11400000, guid: 6908c3acf6d4aeb48aee5b9de1898b93, type: 2}
   - {fileID: 11400000, guid: dd55cabe1365ee543956dbdf95b7981a, type: 2}
-  gemPrefab: {fileID: 1679481287896336541, guid: 6562db61c773ceb45a083844b1a9a1d4,
-    type: 3}
 --- !u!1 &1149474039
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,6 +467,7 @@ GameObject:
   - component: {fileID: 1149474045}
   - component: {fileID: 1149474044}
   - component: {fileID: 1149474047}
+  - component: {fileID: 1149474048}
   m_Layer: 0
   m_Name: BoardController
   m_TagString: Untagged
@@ -551,6 +564,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 864615e718ef4df480d3bfb62c6448aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1149474048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149474039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3525ae9c0e54f708b88217ef4065790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1229857232

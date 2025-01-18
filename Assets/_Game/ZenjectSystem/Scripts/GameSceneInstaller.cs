@@ -10,17 +10,24 @@ namespace _Game.ZenjectSystem.Scripts
     {
         public override void InstallBindings()
         {
+            Container.BindInstance(FindObjectOfType<EmptyController>());
+            Container.BindInstance(FindObjectOfType<GemController>());
+
+
+            Container.BindInstance(FindObjectOfType<EmptyFactory>());
             Container.BindInstance(FindObjectOfType<GemFactory>());
             Container.BindInstance(FindObjectOfType<WoodFactory>());
-            Container.BindInstance(FindObjectOfType<EmptyFactory>());
+
 
             Container.BindInstance(FindObjectOfType<BoardController>());
             Container.BindInstance(FindObjectOfType<BoardInputController>());
+
 
             Container.BindInstance(FindObjectOfType<BoardBlastController>());
             Container.BindInstance(FindObjectOfType<BoardShakeController>());
             Container.BindInstance(FindObjectOfType<BoardScaleUpDownController>());
             Container.BindInstance(FindObjectOfType<BoardFallController>());
+            Container.BindInstance(FindObjectOfType<BoardViewController>());
         }
     }
 }

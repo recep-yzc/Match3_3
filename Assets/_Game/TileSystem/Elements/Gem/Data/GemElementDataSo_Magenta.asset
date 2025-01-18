@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68aab674542d4b5d954a4bca923ba9e5, type: 3}
+  m_Name: GemElementDataSo_Magenta
+  m_EditorClassIdentifier: 
+  data:
+    tileId: 2
+    icon: {fileID: 21300000, guid: 1027e17ae7ec0a2428b90eb4aef2990a, type: 3}
+    gemId: 2
+    levelOfSpriteDataList:
+    - level: 0
+      sprite: {fileID: 21300000, guid: 1027e17ae7ec0a2428b90eb4aef2990a, type: 3}
+    - level: 3
+      sprite: {fileID: 21300000, guid: f5c5a6658e8a68b468fcf2c3ac0153cd, type: 3}
+    - level: 5
+      sprite: {fileID: 21300000, guid: 0be94e88d9c86ea45a80f0f2bf5363ec, type: 3}
+    - level: 7
+      sprite: {fileID: 21300000, guid: 41c88515bbf8af747b1dfb1f3a15d2fd, type: 3}

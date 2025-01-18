@@ -5,6 +5,7 @@ using Zenject;
 
 namespace _Game.Board.Scripts
 {
+    [DefaultExecutionOrder(-1)]
     public class BoardShakeController : MonoBehaviour
     {
         #region Parameters

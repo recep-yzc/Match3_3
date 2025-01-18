@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace _Game.Board.Scripts
 {
+    [DefaultExecutionOrder(-1)]
     public class BoardBlastController : MonoBehaviour
     {
         #region Parameters
@@ -61,7 +62,7 @@ namespace _Game.Board.Scripts
                 if (nTileData is null || nTileData.IsEmpty) continue;
 
                 var nTileGem = nTileData.GetTileComponents<IGem>();
-                if (nTileGem?.GemId == tileGem.GemId) await FindSimilarGemTileData(similarTiles, nTileData);
+                if (nTileGem?.GetGemId() == tileGem.GetGemId()) await FindSimilarGemTileData(similarTiles, nTileData);
             }
         }
     }

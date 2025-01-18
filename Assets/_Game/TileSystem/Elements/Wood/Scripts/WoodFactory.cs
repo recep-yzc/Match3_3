@@ -7,6 +7,7 @@ using TileData = _Game.Level.Scripts.TileData;
 
 namespace _Game.TileSystem.Elements.Wood.Scripts
 {
+    [DefaultExecutionOrder(-2)]
     public class WoodFactory : TileFactory
     {
         [Header("References")] [SerializeField]
@@ -15,7 +16,7 @@ namespace _Game.TileSystem.Elements.Wood.Scripts
         [Header("References")] [SerializeField]
         private Wood woodPrefab;
 
-        protected override void Awake()
+        protected override void Start()
         {
             TileConstants.FactoryList.TryAdd(TileId.Wood, this);
         }

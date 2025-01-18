@@ -9,13 +9,11 @@ namespace _Game.Level.Scripts
         [Header("References")] [SerializeField]
         private LevelGenerator levelGenerator;
 
-        private void OnDrawGizmos()
-        {
-            if (!Application.isPlaying) return;
+        #region Parameters
 
-            DrawGrid();
-            DrawMouseIcon();
-        }
+        private Camera _camera;
+
+        #endregion
 
         private void DrawGrid()
         {
@@ -46,15 +44,32 @@ namespace _Game.Level.Scripts
             if (tilePropertyDataSo == null) return;
 
             var mousePosition = Input.mousePosition;
-            mousePosition.z = 10;
-            if (Camera.main == null) return;
+            mousePosition.z = _camera.orthographicSize;
+            if (_camera == null) return;
 
-            var worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            var worldPosition = _camera.ScreenToWorldPoint(mousePosition);
 
             var elementData = tilePropertyDataSo.GetElementData();
 
             Gizmos.DrawIcon(worldPosition, "Resources/" + elementData.icon.name, true);
             Gizmos.DrawWireCube(worldPosition, VectorHelper.Size);
         }
+
+        #region UnityActions
+
+        private void Start()
+        {
+            _camera = Camera.main;
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (!Application.isPlaying) return;
+
+            DrawGrid();
+            DrawMouseIcon();
+        }
+
+        #endregion
     }
 }

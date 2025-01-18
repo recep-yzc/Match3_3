@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using _Game.TileSystem.Tile.Scripts;
 using UnityEngine;
 using Zenject;
@@ -7,56 +6,42 @@ using TileData = _Game.Level.Scripts.TileData;
 
 namespace _Game.TileSystem.Elements.Empty.Scripts
 {
+    [DefaultExecutionOrder(-2)]
     public class EmptyFactory : TileFactory
     {
         [Header("References")] [SerializeField]
-        private EmptyElementDataSo emptyElementDataSo;
-
-        [Header("References")] [SerializeField]
         private Empty emptyPrefab;
 
-        protected override void Awake()
+        #region UnityActions
+
+        protected override void Start()
         {
             TileConstants.FactoryList.TryAdd(TileId.Empty, this);
         }
 
+        #endregion
+
         public override GameObject Create(TileData tileData)
         {
-            var empty = GetEmptyInPool();
+            var emptyGameObject = GetGameObjectInPool(ref _createdEmptyList, emptyPrefab.gameObject);
 
-            var iEmpty = empty.GetComponent<IEmpty>();
-            var iTile = empty.GetComponent<ITile>();
+            var iEmpty = emptyGameObject.GetComponent<IEmpty>();
+            var iTile = emptyGameObject.GetComponent<ITile>();
 
             iTile.SetPosition(tileData.coordinate);
             iTile.SetParent(transform);
             iTile.SetTileId(TileId.Empty);
 
-            var emptyElementData = emptyElementDataSo.data;
-
+            var emptyElementData = _emptyController.GetEmptyElementDataSo().data;
             iEmpty.SetSprite(emptyElementData.icon);
 
-            return empty;
-        }
-
-        private GameObject GetEmptyInPool()
-        {
-            var empty = _createdEmptyList.FirstOrDefault(x => !x.activeInHierarchy);
-            if (empty != null)
-            {
-                empty.SetActive(true);
-                return empty;
-            }
-
-            empty = _diContainer.InstantiatePrefab(emptyPrefab);
-            _createdEmptyList.Add(empty);
-
-            return empty;
+            return emptyGameObject;
         }
 
         #region Parameters
 
-        private readonly List<GameObject> _createdEmptyList = new();
-        [Inject] private DiContainer _diContainer;
+        [Inject] private EmptyController _emptyController;
+        private List<GameObject> _createdEmptyList = new();
 
         #endregion
     }

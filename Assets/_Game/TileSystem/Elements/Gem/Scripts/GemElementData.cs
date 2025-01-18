@@ -8,6 +8,7 @@ namespace _Game.TileSystem.Elements.Gem.Scripts
     public class GemElementData : ElementData
     {
         [Header("Child Parameters")] public GemId gemId;
+        public LevelOfSpriteData[] levelOfSpriteDataList;
 
         public GemElementData()
         {
