@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Core.Elements.Element.Scripts;
+using _Game.Core.Elements.Empty.Scripts;
+using _Game.Core.Elements.Gem.Scripts;
+using _Game.Core.Elements.None.Scripts;
+using _Game.Core.Grid.Scripts;
 using _Game.Level.Scripts.Scriptable;
-using _Game.TileSystem.Elements.Empty.Scripts;
-using _Game.TileSystem.Elements.Gem.Scripts;
-using _Game.TileSystem.Elements.None.Scripts;
-using _Game.TileSystem.Tile.Scripts;
 using _Game.Utilities.Scripts;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -44,7 +45,7 @@ namespace _Game.Level.Scripts
 
             var inputPosition = _mainCamera.ScreenToWorldPoint(mousePosition);
 
-            foreach (var tileData in levelDataSo.tileDataList)
+            foreach (var tileData in levelDataSo.levelGridDataList)
             {
                 var bottomLeft = tileData.coordinate - VectorHelper.HalfSize;
                 var topRight = tileData.coordinate + VectorHelper.HalfSize;
@@ -65,30 +66,30 @@ namespace _Game.Level.Scripts
             _mainCamera = Camera.main;
         }
 
-        private void ChangeTileData(TileData tileData)
+        private void ChangeTileData(LevelGridData levelGridData)
         {
-            if (TileConstants.SelectedElementDataSo == null) return;
-            var elementData = TileConstants.SelectedElementDataSo.GetElementData();
+            if (GridGlobalValues.SelectedElementDataBaseSo == null) return;
+            var elementData = GridGlobalValues.SelectedElementDataBaseSo.GetElementDataBase();
 
-            tileData.TileId = elementData.tileId;
-            tileData.elementData = elementData;
+            levelGridData.ElementId = elementData.elementId;
+            levelGridData.elementDataBase = elementData;
         }
 
         public void GenerateLevelDataSo(LevelDataSo dataSo, GenerateType generateType, List<GemId> gemIds)
         {
-            dataSo.tileDataList.Clear();
-            dataSo.tileDataList = new List<TileData>();
+            dataSo.levelGridDataList.Clear();
+            dataSo.levelGridDataList = new List<LevelGridData>();
 
             var halfOfRows = dataSo.rows * 0.5f;
             var halfOfColumns = dataSo.columns * 0.5f;
             var offset = new Vector2(halfOfRows, halfOfColumns) - VectorHelper.HalfSize;
 
-            TileData CreateTileData(int x, int y, TileId tileId, ElementData elementData)
+            LevelGridData CreateTileData(int x, int y, ElementId tileId, ElementDataBase elementData)
             {
-                return new TileData
+                return new LevelGridData
                 {
-                    tileId = tileId,
-                    elementData = elementData,
+                    elementId = tileId,
+                    elementDataBase = elementData,
                     coordinate = new Vector2(x, y) - offset
                 };
             }
@@ -98,14 +99,14 @@ namespace _Game.Level.Scripts
                 switch (generateType)
                 {
                     case GenerateType.WithNone:
-                        var noneElementData = noneElementDataSo.GetElementData();
-                        dataSo.tileDataList.Add(CreateTileData(x, y, TileId.None, noneElementData));
+                        var noneElementData = noneElementDataSo.GetElementDataBase();
+                        dataSo.levelGridDataList.Add(CreateTileData(x, y, ElementId.None, noneElementData));
                         break;
 
                     case GenerateType.WithEmpty:
 
-                        var emptyElementData = emptyElementDataSo.GetElementData();
-                        dataSo.tileDataList.Add(CreateTileData(x, y, TileId.Empty, emptyElementData));
+                        var emptyElementData = emptyElementDataSo.GetElementDataBase();
+                        dataSo.levelGridDataList.Add(CreateTileData(x, y, ElementId.Empty, emptyElementData));
                         break;
 
                     case GenerateType.WithSelectedRandomGem:
@@ -114,7 +115,7 @@ namespace _Game.Level.Scripts
                         var gemElementData =
                             gemElementDataSoList.First(elementDataSo => elementDataSo.data.gemId == randomGemId);
 
-                        dataSo.tileDataList.Add(CreateTileData(x, y, TileId.Gem, gemElementData.data));
+                        dataSo.levelGridDataList.Add(CreateTileData(x, y, ElementId.Gem, gemElementData.data));
                         break;
 
                     default:

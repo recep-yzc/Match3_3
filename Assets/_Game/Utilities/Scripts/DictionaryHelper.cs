@@ -1,24 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
-using _Game.TileSystem.Tile.Scripts;
+using _Game.Core.Grid.Scripts;
 
 namespace _Game.Utilities.Scripts
 {
     public static class DictionaryHelper
     {
-        public static void AddTileDataToDictionary(Dictionary<float, List<TileData>> dictionary, float key,
-            TileData tileData)
+        public static void AddTileDataToDictionary(Dictionary<float, List<GridData>> dictionary, float key,
+            GridData gridData)
         {
             if (!dictionary.TryGetValue(key, out var tileDataList))
             {
-                tileDataList = new List<TileData>();
+                tileDataList = new List<GridData>();
                 dictionary[key] = tileDataList;
             }
 
-            tileDataList.Add(tileData);
+            tileDataList.Add(gridData);
         }
 
-        public static void OrderByVertical(Dictionary<float, List<TileData>> verticalTileData)
+        public static void OrderByVertical(Dictionary<float, List<GridData>> verticalTileData)
         {
             foreach (var key in verticalTileData.Keys.ToList())
             {
@@ -28,7 +28,7 @@ namespace _Game.Utilities.Scripts
             }
         }
 
-        public static void OrderByHorizontal(Dictionary<float, List<TileData>> horizontalTileData)
+        public static void OrderByHorizontal(Dictionary<float, List<GridData>> horizontalTileData)
         {
             foreach (var key in horizontalTileData.Keys.ToList())
             {

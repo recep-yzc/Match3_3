@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using _Game.TileSystem.Elements.Gem.Scripts;
+using _Game.Core.Elements.Gem.Scripts;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -9,7 +9,7 @@ namespace _Game.Level.Scripts.Scriptable
     [CreateAssetMenu(fileName = "LevelDataSo", menuName = "Game/Level/Data")]
     public class LevelDataSo : ScriptableObject
     {
-        [HideInInspector] public List<TileData> tileDataList;
+        [HideInInspector] public List<LevelGridData> levelGridDataList;
 
         [MinValue(2)] [MaxValue(100)] [PropertyOrder(-99)]
         public int rows;

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using _Game.TileSystem.Tile.Scripts;
+using _Game.Core.Elements.Element.Scripts;
 using UnityEngine;
 
 namespace _Game.Level.Scripts
@@ -10,7 +10,7 @@ namespace _Game.Level.Scripts
         private TileElementPickButton tileElementPickPrefab;
 
         [SerializeField] private Transform parent;
-        [SerializeField] private List<ElementDataSo> elementDataList;
+        [SerializeField] private List<ElementDataBaseSo> elementDataList;
 
         private void Start()
         {

@@ -1,4 +1,5 @@
-using _Game.TileSystem.Tile.Scripts;
+using _Game.Core.Elements.Element.Scripts;
+using _Game.Core.Grid.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ namespace _Game.Level.Scripts
 
         #region Private
 
-        private ElementDataSo _elementDataSo;
+        private ElementDataBaseSo _elementDataBaseSo;
 
         #endregion
 
@@ -26,15 +27,15 @@ namespace _Game.Level.Scripts
 
         #endregion
 
-        public void Init(ElementDataSo elementDataSo)
+        public void Init(ElementDataBaseSo elementDataBaseSo)
         {
-            _elementDataSo = elementDataSo;
-            imgIcon.sprite = elementDataSo.GetElementData().icon;
+            _elementDataBaseSo = elementDataBaseSo;
+            imgIcon.sprite = elementDataBaseSo.GetElementDataBase().icon;
         }
 
         private void OnClicked()
         {
-            TileConstants.SelectedElementDataSo = _elementDataSo;
+            GridGlobalValues.SelectedElementDataBaseSo = _elementDataBaseSo;
         }
     }
 }

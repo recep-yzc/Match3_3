@@ -1,5 +1,5 @@
 using System;
-using _Game.TileSystem.Tile.Scripts;
+using _Game.Core.Grid.Scripts;
 using UnityEngine;
 
 namespace _Game.Utilities.Scripts

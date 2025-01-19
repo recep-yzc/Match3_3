@@ -1,4 +1,4 @@
-using _Game.TileSystem.Tile.Scripts;
+using _Game.Core.Grid.Scripts;
 using _Game.Utilities.Scripts;
 using UnityEngine;
 
@@ -17,12 +17,12 @@ namespace _Game.Level.Scripts
 
         private void DrawGrid()
         {
-            foreach (var tileLevelData in levelGenerator.levelDataSo.tileDataList)
+            foreach (var tileLevelData in levelGenerator.levelDataSo.levelGridDataList)
             {
-                if (tileLevelData.elementData.icon == null) continue;
+                if (tileLevelData.elementDataBase.icon == null) continue;
 
                 var coordinate = tileLevelData.coordinate;
-                Gizmos.DrawIcon(coordinate, "Resources/" + tileLevelData.elementData.icon.name, true);
+                Gizmos.DrawIcon(coordinate, "Resources/" + tileLevelData.elementDataBase.icon.name, true);
                 Gizmos.DrawWireCube(coordinate, VectorHelper.Size);
             }
 
@@ -40,7 +40,7 @@ namespace _Game.Level.Scripts
 
         private void DrawMouseIcon()
         {
-            var tilePropertyDataSo = TileConstants.SelectedElementDataSo;
+            var tilePropertyDataSo = GridGlobalValues.SelectedElementDataBaseSo;
             if (tilePropertyDataSo == null) return;
 
             var mousePosition = Input.mousePosition;
@@ -49,7 +49,7 @@ namespace _Game.Level.Scripts
 
             var worldPosition = _camera.ScreenToWorldPoint(mousePosition);
 
-            var elementData = tilePropertyDataSo.GetElementData();
+            var elementData = tilePropertyDataSo.GetElementDataBase();
 
             Gizmos.DrawIcon(worldPosition, "Resources/" + elementData.icon.name, true);
             Gizmos.DrawWireCube(worldPosition, VectorHelper.Size);
